@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apsara Bazaar-Support Us</title>
+  <link rel="shortcut icon" href="/icons/logo.png" type="image/x-icon">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #121212;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+    .donation-container {
+      text-align: center;
+      background: #1e1e1e;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      width: 90%;
+    }
+    .donation-container h1 {
+      font-size: 1.8em;
+      margin-bottom: 1rem;
+      color: #f8b400;
+    }
+    .donation-container p {
+      font-size: 1em;
+      margin-bottom: 1.5rem;
+    }
+    .qr-code {
+        width: 100%;
+    height: 200px;
+    background-color: #ffffff00;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+    .qr-code img {
+        aspect-ratio: auto;
+    width: 200px;
+    border-radius: 4px;
+    }
+    .scan-instruction {
+      font-size: 1.1em;
+      margin-bottom: 1.5rem;
+      color: #aaaaaa;
+    }
+    .thank-you-note {
+      font-size: 1em;
+      color: #77dd77;
+      margin-top: 1rem;
+    }
+    @media (max-width: 500px) {
+      .donation-container {
+        padding: 1rem;
+      }
+      .donation-container h1 {
+        font-size: 1.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="donation-container">
+    <h1>Support Us with a Donation</h1>
+    <p>Your support helps us keep creating and maintaining content. Every bit is appreciated!</p>
+    <div class="qr-code">
+      <!-- Replace 'your-qr-code.png' with the path to your actual QR code image -->
+      <img src="/asset/donation.jpg" alt="Scan QR Code to Donate">
+    </div>
+    <div class="scan-instruction">Please scan the QR code to make a donation.</div>
+    <p class="thank-you-note">Thank you for your generosity!</p>
+  </div>
+</body>
+</html>

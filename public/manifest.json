@@ -1,0 +1,29 @@
+{
+  "name": "Apsara Bazaar",
+  "short_name": "Apsara Bazaar",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3f51b5",
+  "orientation": "portrait",
+  "lang": "en-US",
+  "description": "Created by TZ Creations. Developed by Tejas Agrawal.",
+  "icons": [
+    {
+      "src": "/icons/logo.png",
+      "sizes": "348x348",
+      "type": "image/png"
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+apsara",
+      "url": "/post/details/%s"
+    }
+  ],
+  "categories": ["shopping", "marketplace"]
+}
+
+  
+  

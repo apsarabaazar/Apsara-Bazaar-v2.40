@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/add-index.css">
+  <link rel="stylesheet" href="/css/post-structure.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="shortcut icon" href="/icons/logo.png" type="image/x-icon">
+  <link rel="dns-prefetch" href="//api.telegram.org">
+  <title><%= post.title %> | Apsara Bazaar-Post</title>
+<meta name="description" content="<%= post.title.substring(0, 150) %>" />
+<link rel="canonical" href="https://apsarabazaar.onrender.com/post/details/<%= post._id %>" />
+
+<!-- Open Graph Tags for Social Sharing -->
+<meta property="og:title" content="Apsara Bazaar Post" />
+<meta property="og:description" content="<%= post.title.substring(0, 150) %>" />
+<meta property="og:image" content="<%= images[0].src %>" />
+<meta property="og:url" content="https://apsarabazaar.onrender.com/post/details/<%= post._id %>" />
+<meta property="og:type" content="article" />
+
+<!-- Twitter Card Tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Apsara Bazaar Post" />
+<meta name="twitter:description" content="<%= post.title.substring(0, 150) %>" />
+<meta name="twitter:image" content="<%= images[0].src %>" />
+
+<!-- Additional optional meta tags -->
+<meta name="robots" content="index,follow">
+
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Satisfy&display=swap');
+    *{
+      margin: 0;padding: 0;
+    }
+    body{
+      font-family: Bitter;
+      background: #0e1113;
+    }
+    .card-title h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+/* loader */
+#loading-overlay{
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.7);
+  z-index: 9999;
+  color: #fff;
+  font-size: 1.5rem;
+  align-items: center;
+  justify-content: center;
+}
+/* From Uiverse.io by Lmickk2 */ 
+.loader {
+  display: flex;
+  transition: all 0.4s;
+}
+
+.loader div {
+  margin-left: 0.8rem;
+  background-color: rgb(34, 34, 34);
+  box-shadow: inset 2px 2px 10px black;
+  border-radius: 100%;
+  height: 1rem;
+  width: 1rem;
+}
+
+.box-load1 {
+  animation: brighten 1.2s infinite;
+}
+
+.box-load2 {
+  animation: brighten 1.2s infinite;
+  animation-delay: .2s;
+}
+
+.box-load3 {
+  animation: brighten 1.2s infinite;
+  animation-delay: .4s;
+}
+
+@keyframes brighten {
+  100% {
+    background-color: rgb(165, 165, 165);
+    box-shadow: none;
+  }
+}
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="l-nav" onclick="window.location.href='/'" style="cursor: pointer;">&nbsp; Apsara Bazaar</div>
+  <div class="r-nav">
+    <% if (!user) { %>
+    <div><a href="/auth/login">Login</a></div>
+    <% } else { %>
+    <div class="showmenu">
+      <button class="add-post" onclick="window.location.href='/auth/create-post'">
+        <img src="/icons/add.gif" alt="" width="44px" />
+      </button>
+      &nbsp;&nbsp;&nbsp;
+      <button class="menu-btn" onclick="showprofile(1)">
+        <img src="/icons/profile.gif" alt="Your GIF" class="gif-overlay" width="32px" />
+      </button>
+    </div>
+    <% } %>
+  </div>
+</nav>
+
+<main style=" width: 95%; margin-top: 60px;">
+  <%- include('components/post-structure') %>
+</main>
+
+<div id="fullScreenImageContainer" class="image-overlay" onclick="closeFullscreenImage()">
+  <img id="fullScreenImage" src="" alt="Full screen view" />
+</div>
+
+
+
+<% if (user) { %>
+  <div id="overlay">
+    <div id="content">
+      <div class="stclose">
+        <button class="clm" style="background-color: #ffa27f00" onclick="showprofile(2)">
+          <span class="money-need" style="font-size: 26px"> close </span>
+        </button>
+      </div>
+      <div class="c-head">
+        <div class="p-pop">
+          <img src="/icons/profile.gif" alt="Your GIF" class="gif-overlay" width="40px" />
+          &nbsp;&nbsp;<%= user.name.split(' ')[0] %>
+        </div>
+      </div>
+
+      <div class="p-options">
+        <div class="p-profile" onclick="window.location.href='/my-profile'">
+          <img src="/icons/profile.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;<button>My Profile</button>
+        </div>
+        <div class="donation" onclick="window.location.href='/donation'">
+          <img src="/icons/donation.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;<button>Donate Us</button>
+        </div>
+        <div class="term">
+          <img src="/icons/term.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;
+          <button> <a href="/asset/T&C.pdf" style="text-decoration: none; color: inherit;font-size: 18px;">Term and Conditions</a></button>
+        </div>
+        <div class="contact">
+          <span class="money-need">contact_support</span>&nbsp;&nbsp;
+          <button> <a href="/asset/T&C.pdf" style="text-decoration: none; color: inherit;font-size: 18px;">Help and Support</a></button>
+        </div>
+        <div class="app">
+          <span class="money-need"> download </span>&nbsp;&nbsp;<button id="install-button" onclick="install()">Install App</button>
+        </div>
+        <div class="logout">
+          <span class="money-need"> logout </span>&nbsp;&nbsp;<button>
+            <a style="font-size: 16px" href="/auth/logout">Logout</a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+  <div id="loading-overlay">
+    <div class="loader">
+      <div class="box-load1"></div>
+      <div class="box-load2"></div>
+      <div class="box-load3"></div>
+    </div>
+  </div>
+
+
+  <script src="/js/posts.js"></script>
+<script>
+
+window.addEventListener('pageshow', function(event) {
+    // If the page was loaded from the bfcache, event.persisted will be true
+    if (event.persisted) {
+      document.getElementById('loading-overlay').style.display = 'none';
+    }
+  });
+   
+  const userLikes = "<%= user && user.likes ? user.likes : [] %>";
+  console.log("User Likes Array:", userLikes);
+  console.log("length:"+userLikes.length)
+
+  const postId = '<%= post._id %>';
+  console.log(postId)
+  const isLiked = userLikes.includes(postId);
+  const likeIcon = isLiked ? "/icons/liked.png" : "/icons/like.gif";
+
+  document.getElementById(`like-icon-${postId}`).src = likeIcon;
+  console.log("Is Liked:", isLiked);
+
+let userID = "<%= user ? user.username : 'null' %>";
+    let login=0;
+    if(userID!=="null"){
+        login=1;
+    }
+
+  function addLike(postId, username) {
+    
+    const likesElem = document.getElementById(`like-count-${postId}`);
+  const likeIconElem = document.getElementById(`like-icon-${postId}`); // Get the like icon element
+   // Successfully added like
+   let currentLikes = parseInt(likesElem.innerHTML); // Get the current likes count from the DOM
+
+   if (login===1) { 
+    likesElem.innerHTML = currentLikes + 1; // Increment the displayed likes count by 1
+    likeIconElem.src = "/icons/liked.png"; 
+       
+      }
+
+    fetch(`/post/addlike/${postId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(response => response.json().then(data => ({
+        status: response.status,
+        body: data
+      })))
+      .then(({ status, body }) => {
+        const likesElem = document.getElementById(`like-count-${postId}`);
+        const likeIconElem = document.getElementById(`like-icon-${postId}`);
+        if (status === 200) {
+          let currentLikes = parseInt(likesElem.innerHTML);
+          likesElem.innerHTML = currentLikes + 1;
+          likeIconElem.src = "/icons/liked.png";
+        } else if (status === 401) {
+          window.location.href = "/auth/login";
+        } else if (status === 400) {
+          alert(body.message || 'You have already liked this post.');
+        } else {
+          console.error('Unexpected error:', body);
+          alert('An error occurred while adding the like.');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  function fetchComments(postId) {
+    fetch(`/post/comments/${postId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(response => {
+        if (response.status === 401) {
+          window.location.href = "/auth/login";
+          return;
+        } else if (response.status === 404) {
+          alert("Post not found.");
+          return;
+        } else if (!response.ok) {
+          alert("An error occurred while fetching comments.");
+          return;
+        }
+        window.location.href = `/post/comments/${postId}`;
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  function showprofile(n) {
+      let o = document.getElementById("overlay");
+      let c = document.getElementById("content");
+      if (n === 1) {
+        o.style.display = "flex";
+        c.style.display = "flex";
+        // Trigger a reflow to ensure the browser notices the change
+        c.offsetHeight; // This forces a reflow
+        c.style.height = "70vh";
+      } else {
+        c.style.height = "0vh";
+        setTimeout(() => {
+          o.style.display = "none";
+          c.style.display = "none";
+        }, 500); // Delay matches the transition duration
+      }
+    }
+
+</script>
+</body>
+</html>

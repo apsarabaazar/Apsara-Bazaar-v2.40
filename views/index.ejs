@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="j6z_C1mXAAu0i_3DBg-QTy0x0rXqHyI5RJSfzHoWFmI" />
+  
+  <meta name="description" content="Explore Apsara Bazaar – your ultimate portal to Bollywood glamour. Enjoy exclusive behind-the-scenes updates and celebrity news on top Indian actresses." />
+  <meta name="keywords" content="Apsara Bazaar, Bollywood, Indian Actresses, Celebrity News, Bollywood Updates, Behind the Scenes, Kiara Advani, Disha Patani, Yami Gautam, Anushka Sharma, Bollywood Insider" />
+  
+  <meta name="robots" content="index, follow" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <title>Apsara Baazar</title>
+  <link rel="shortcut icon" href="/icons/logo.png" type="image/x-icon">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/css/index.css" />
+  <link rel="stylesheet" href="/css/add-index.css">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <style>
+    .dropdown-wrapper{
+      position: relative;
+    z-index: 9999;
+    background-color: transparent;
+    height: 32px;
+    }
+    .dropdown {
+      display: none;
+    position: absolute;
+    top: 42px;
+    left: -30px;
+    background: #2a3236;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    min-width: 95vw;
+  
+    }
+
+    .dropdown.show {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 8px 12px;
+    cursor: pointer;
+    position: relative;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f0f0f0;
+    }
+    .radio{
+      position: absolute;
+    right: 14px;
+    top: 12px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+
+
+  <nav class="nav">
+    <div class="l-nav">&nbsp; Apsara Bazaar</div>
+    <div class="r-nav">
+      <% if (!user) { %>
+      <div><a href="/auth/login">Login</a></div>
+      <% } else { %>
+      <div class="showmenu">
+        <button class="add-post" onclick="window.location.href='/auth/create-post'">
+          <img src="/icons/add.gif" alt="" width="44px" />
+        </button>
+        
+      </div>
+      <% } %>
+    </div>
+  </nav>
+  
+  
+  <% if (user) { %> 
+    <div class="active-user">
+      <div class="active-user-logo"></div>
+      <p id="user-numb">&nbsp;<%=nuser%> online</p>
+    </div>
+
+   
+
+  <div class="filters">
+    <div class="category" id="toggleMenu">
+      <span class="money-need" style="width: 24px; font-size: 26px;">tune</span>
+    </div>
+
+    <div class="dropdown-wrapper">
+      <div class="dropdown" id="dropdownMenu">
+        <div class="dropdown-item s-1" onclick="selectOption('New')">
+          <input type="radio" name="option" class="radio" id="new" checked > New
+        </div>
+        <div class="dropdown-item s-5" onclick="selectOption('My Feed')" style="display: none;">
+          <input type="radio" name="option" class="radio" id="myfeed" > My Feed
+        </div>
+        <div class="dropdown-item s-2" onclick="selectOption('Hot')">
+          <input type="radio" name="option" class="radio" id="hot"> Hot
+        </div>
+        <div class="dropdown-item s-3" onclick="selectOption('Top')">
+          <input type="radio" name="option" class="radio" id="top" > Top
+        </div>
+        <div class="dropdown-item s-4" onclick="selectOption('Rising')">
+          <input type="radio" name="option" class="radio" id="rising"> Rising
+        </div>
+      </div>
+
+    </div>
+    
+
+    <div class="tags-container">
+    <div class="tags">
+      <button class="tag t-1"data-tag="" style="background: #2a3236;" >All</button>
+      <button class="tag t-2"data-tag="Bazaar">Bazaar</button>
+      <button class="tag t-3"data-tag="Admire Apsara">Admire Apsara</button>
+      <button class="tag t-4"data-tag="Influencers">Influencers</button>
+      <button class="tag t-5"data-tag="Kinks and Fantasies">Kinks & Fantasies</button>
+      <button class="tag t-6"data-tag="Apsara Fakes">Apsara Fakes</button>
+    </div>
+    </div>
+  </div>
+
+  <% } %>
+  
+
+
+  <div class="content" id="posts">
+    <!-- Placeholder for posts. -->
+  </div>
+
+ <% if (user) { %> 
+  <div id="overlay">
+    <div id="content">
+      <div class="stclose">
+        <button class="clm" style="background-color: #ffa27f00" onclick="showprofile(2)">
+          <span class="money-need" style="font-size: 26px"> close </span>
+        </button>
+      </div>
+      <div class="c-head">
+        <div class="p-pop">
+          <img src="/icons/profile.gif" alt="Your GIF" class="gif-overlay" width="40px" />
+          &nbsp;&nbsp;<%= user.name.split(' ')[0] %>
+        </div>
+      </div>
+
+      <div class="p-options">
+        <div class="p-profile" onclick="window.location.href='/my-profile'">
+          <img src="/icons/profile.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;<button>My Profile</button>
+        </div>
+        <div class="p-profile" onclick="window.location.href='/user/liked-posts'">
+      
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 32px;" >
+            <path d="M22.813 7.338a6.736 6.736 0 0 0-3.8-4.49c-3.206-1.471-6 .878-7.016 1.9-1.013-1.025-3.813-3.374-7.016-1.9a6.736 6.736 0 0 0-3.8 4.49 5.818 5.818 0 0 0 1 4.98c1.708 2.215 9.156 8.891 9.472 9.174a.514.514 0 0 0 .688 0c.316-.283 7.764-6.959 9.472-9.174a5.815 5.815 0 0 0 1-4.98zM21 11.689c-1.448 1.878-7.488 7.362-9 8.726-1.512-1.364-7.552-6.848-9-8.726a4.8 4.8 0 0 1-.812-4.1 5.711 5.711 0 0 1 3.226-3.8c2.229-1.027 4.731.311 6.186 2.05a.516.516 0 0 0 .4.188.516.516 0 0 0 .4-.188c.029-.035 2.958-3.536 6.188-2.055a5.714 5.714 0 0 1 3.226 3.8A4.8 4.8 0 0 1 21 11.689z" fill="#ffffff"/>
+            </svg>
+          &nbsp;&nbsp;<button>My Likes</button>
+        </div>
+        <div class="donation" onclick="window.location.href='/donation'">
+          <img src="/icons/donation.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;<button>Donate Us</button>
+        </div>
+        <div class="term">
+          <img src="/icons/term.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;
+          <button> <a href="/asset/T&C.pdf" style="text-decoration: none; color: inherit;font-size: 16px;">Term and Conditions</a></button>
+        </div>
+        <div class="contact">
+          <span class="money-need"> contact_support </span>&nbsp;&nbsp;
+          <button onclick="window.location.href='mailto:apsarabaazar@gmail.com';">Contact Us</button>
+        </div>
+        <div class="app">
+          <span class="money-need"> download </span>&nbsp;&nbsp;<button id="install-button" onclick="install()">Install App</button>
+        </div>
+        <div class="logout">
+          <span class="money-need"> logout </span>&nbsp;&nbsp;<button>
+            <a style="font-size: 16px" href="/auth/logout">Logout</a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+
+  <!-- Full-Screen Image Display (simplified) -->
+  <div id="fullScreenImageContainer" class="image-overlay" onclick="closeFullscreenImage()">
+    <img id="fullScreenImage" src="" alt="Full screen view" />
+  </div>
+  <!-- NSFW Warning Modal -->
+  <div id="nsfwWarningModal" class="modal">
+    <div class="modal-content">
+      <h3>Warning: NSFW Content</h3>
+      <p>This community contains content that may be considered NSFW.It inclueds kinks and fantasies and have no relation with real world.There is no attempt to harm or disrespect any individual thorugh our content .Please proceed with caution.</p>
+      <button onclick="closeModal(),install()">I Understand</button>
+    </div>
+  </div>
+
+  <% if (user) { %> 
+  <div class="play-type">
+    <div class="arena">
+      <svg rpl="" fill="currentColor" height="24" icon-name="home-fill" viewBox="0 0 20 20" width="24" xmlns="http://www.w3.org/2000/svg"> <path d="m19.724 6.765-9.08-6.11A1.115 1.115 0 0 0 9.368.647L.276 6.765a.623.623 0 0 0 .35 1.141h.444v10.001c.001.278.113.544.31.74.196.195.462.304.739.303h5.16a.704.704 0 0 0 .706-.707v-4.507c0-.76 1.138-1.475 2.02-1.475.882 0 2.02.715 2.02 1.475v4.507a.71.71 0 0 0 .707.707h5.16c.274-.001.538-.112.732-.307.195-.195.305-.46.306-.736v-10h.445a.618.618 0 0 0 .598-.44.625.625 0 0 0-.25-.702Z"></path>
+       </svg>
+    </div>
+    <div class="rush" id="chat-btn">
+      
+        <svg rpl="" fill="currentColor" height="24" icon-name="chat-outline" viewBox="0 0 20 20" width="24" xmlns="http://www.w3.org/2000/svg"> 
+          <path d="M11.61 19.872a10.013 10.013 0 0 0 6.51-4.035A9.999 9.999 0 0 0 12.275.264c-1.28-.3-2.606-.345-3.903-.132a10.05 10.05 0 0 0-8.25 8.311 9.877 9.877 0 0 0 1.202 6.491l-1.24 4.078a.727.727 0 0 0 .178.721.72.72 0 0 0 .72.19l4.17-1.193A9.87 9.87 0 0 0 9.998 20c.54 0 1.079-.043 1.612-.128ZM1.558 18.458l1.118-3.69-.145-.24A8.647 8.647 0 0 1 1.36 8.634a8.778 8.778 0 0 1 7.21-7.27 8.765 8.765 0 0 1 8.916 3.995 8.748 8.748 0 0 1-2.849 12.09 8.763 8.763 0 0 1-3.22 1.188 8.68 8.68 0 0 1-5.862-1.118l-.232-.138-3.764 1.076ZM6.006 9a1.001 1.001 0 0 0-.708 1.707A1 1 0 1 0 6.006 9Zm4.002 0a1.001 1.001 0 0 0-.195 1.981 1 1 0 1 0 .195-1.98Zm4.003 0a1.001 1.001 0 1 0 0 2.003 1.001 1.001 0 0 0 0-2.003Z"></path>
+        </svg>
+       
+        
+        
+        
+    </div>
+
+    <% if (user) { %>
+    <div class="pt-profile">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32" xml:space="preserve" width="30px">
+        <path d="M16 31C7.729 31 1 24.271 1 16S7.729 1 16 1s15 6.729 15 15-6.729 15-15 15zm0-28C8.832 3 3 8.832 3 16s5.832 13 13 13 13-5.832 13-13S23.168 3 16 3z" fill="#ffffff" />
+        <circle cx="16" cy="11.368" r="3.368"fill="#ffffff"/>
+        <path d="M20.673 24h-9.346c-.83 0-1.502-.672-1.502-1.502v-.987a5.404 5.404 0 0 1 5.403-5.403h1.544a5.404 5.404 0 0 1 5.403 5.403v.987c0 .83-.672 1.502-1.502 1.502z"fill="#ffffff"/>
+      </svg>
+    </div>
+    <% } %>
+  </div>
+  <% } %>
+
+
+<div id="loading-overlay">
+  <div class="loader">
+    <div class="box-load1"></div>
+    <div class="box-load2"></div>
+    <div class="box-load3"></div>
+  </div>
+</div>
+
+
+
+
+
+
+<script src="/js/index.js"></script>
+<script src="/js/posts.js"></script>
+<script>
+  (function() {
+    'use strict';
+    /* =======================
+       Utility Functions
+    ======================= */
+    //Time Shower
+function timeAgo(isoDate) {
+  const timeUnits = [
+    { label: "year", seconds: 31536000 },
+    { label: "month", seconds: 2592000 },
+    { label: "day", seconds: 86400 },
+    { label: "hour", seconds: 3600 },
+    { label: "minute", seconds: 60 }
+  ];
+  const now = new Date();
+  const past = new Date(isoDate);
+  const diffInSeconds = Math.floor((now - past) / 1000);
+  for (let unit of timeUnits) {
+    const interval = Math.floor(diffInSeconds / unit.seconds);
+    if (interval >= 1) {
+      return `${interval} ${unit.label}${interval > 1 ? "s" : ""} ago`;
+    }
+  }
+  return "just now";
+}
+  
+    /* =======================
+       Dropdown Menu
+    ======================= */
+    function initDropdownMenu() {
+      const toggleMenu = document.getElementById('toggleMenu');
+      const dropdownMenu = document.getElementById('dropdownMenu');
+      if (!toggleMenu || !dropdownMenu) {
+        console.log("Dropdown menu elements not found.");
+        return;
+      }
+      toggleMenu.addEventListener('click', () => {
+    dropdownMenu.classList.toggle('show'); // Toggle the dropdown menu
+  });
+      document.addEventListener('click', (e) => {
+        if (!toggleMenu.contains(e.target) && !dropdownMenu.contains(e.target)) {
+          dropdownMenu.classList.remove('show');
+        }
+      }); 
+
+      
+    }
+    
+    /* =======================
+       Like and Comment Handlers
+    ======================= */
+    function addLike(postId) {
+      const likesElem = document.getElementById(`like-count-${postId}`);
+      const likeIconElem = document.getElementById(`like-icon-${postId}`);
+      let currentLikes = parseInt(likesElem.innerHTML, 10) || 0;
+      if (isLoggedIn) {
+        // Optimistically update the UI
+        likesElem.innerHTML = currentLikes + 1;
+        likeIconElem.src = "/icons/liked.png";
+      }
+      fetch(`/post/addlike/${postId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+        .then(response =>
+          response.json().then(data => ({ status: response.status, body: data }))
+        )
+        .then(({ status, body }) => {
+          if (status === 200) {
+            // Like successfully added
+            likeIconElem.src = "/icons/liked.png";
+          } else if (status === 401) {
+            window.location.href = "/auth/login";
+          } else if (status === 400) {
+            alert(body.message || 'You have already liked this post.');
+          } else {
+            console.error('Unexpected error:', body);
+            alert('An error occurred while adding the like.');
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  
+    function fetchComments(postId) {
+      document.getElementById('loading-overlay').style.display = 'flex';
+      fetch(`/post/comments/${postId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      })
+        .then(response => {
+          if (response.status === 401) {
+            window.location.href = "/auth/login";
+            return;
+          } else if (response.status === 404) {
+            alert("Post not found.");
+            return;
+          } else if (!response.ok) {
+            alert("An error occurred while fetching comments.");
+            return;
+          }
+          window.location.href = `/post/comments/${postId}`;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  
+    /* =======================
+       Posts & Infinite Scroll
+    ======================= */
+    function initPosts() {
+      const postsContainer = document.getElementById("posts");
+      let skipCount = 0;
+      const loadMoreButtonCooldown = 8000;
+      let loadMoreButtonEnabled = true;
+      let isLoading = false;
+      let currentTag = "";
+  
+      async function fetchAndRenderPosts(tag = "") {
+        if (isLoading) return;
+        isLoading = true;
+        try {
+          const response = await fetch(`/api/posts?skip=${skipCount}&limit=10&tag=${encodeURIComponent(tag)}`);
+          if (response.ok) {
+            const data = await response.json();
+            data.posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  
+            // Hide any loading message (if present)
+            const loadingMessage = document.getElementById("loadingMessage");
+            if (loadingMessage) {
+              loadingMessage.style.display = "none";
+            }
+  
+            data.posts.forEach(post => {
+              // Preload images
+              post.images.forEach(img => {
+                const preloadedImage = new Image();
+                preloadedImage.src = img.src;
+              });
+  
+              const postElement = document.createElement("div");
+              postElement.classList.add("post-card");
+              const isLiked = userLikes.includes(post._id);
+              const likeIcon = isLiked ? "/icons/liked.png" : "/icons/like.gif";
+  
+              postElement.innerHTML = `
+                <div class="card-head">
+                  <div class="card-author" style="display: flex; align-items: center;" onclick="redirectToProfile('${post.author}')">
+                    <img src="/icons/profile.gif" alt="">
+                    &nbsp;&nbsp;/${post.author}&nbsp;&nbsp;&nbsp;<p style="font-size:10px;"> ${timeAgo(post.uploadTime)} </p>
+                  </div>
+                </div>
+                <div class="card-title">
+                  <h3 id="post-title" onclick="loadpostdetails('${post._id}')">
+                    <a href='#' style="text-decoration: none; color: inherit;">
+                      ${post.title}
+                    </a>
+                  </h3>
+                </div>
+                ${post.images.length > 0 ? `
+                  <div class="img-container">
+                    ${post.images.length > 1 ? `<button class="slider-btn s-l" onclick="prevImage('${post._id}')">&#10094;</button>` : ''}
+                    <img id="img-${post._id}" 
+                         src="${post.images[0].src}" 
+                         alt="Click to Retry"
+                         data-images='${JSON.stringify(post.images.map(img => img.src))}'
+                         onclick="openFullscreenImage('${post._id}')"
+                         loading="lazy">
+                    ${post.images.length > 1 ? `<button class="slider-btn s-r" onclick="nextImage('${post._id}')">&#10095;</button>` : ''}
+                   
+                     <!-- Image Counter Overlay -->
+                    <div id="img-counter-${post._id}" 
+                         class="image-counter" 
+                         style="position: absolute; bottom: 5px; right: 44%; background: rgba(0,0,0,0.5); color: #fff; padding: 2px 5px; border-radius: 3px;font-size: 12px;">
+                      1 / ${post.images.length}
+                    </div>
+                  </div>
+
+                ` : '<p>No attachments found for this post.</p>'}
+                <div class="card-interaction">
+                  <div class="c-i-left">
+                    <div class="likes" onclick="addLike('${post._id}')">
+                      <img id="like-icon-${post._id}" src="${likeIcon}" alt=""/> 
+                      <p class="like-count" id="like-count-${post._id}">${post.likes}</p>
+                    </div>
+                    <div class="comment" onclick="fetchComments('${post._id}')">
+                      <img src="/icons/comment.gif" alt=""> ${post.comments}
+                    </div>
+                  </div>
+                  <div class="c-i-right">
+                    <div class="share" onclick="sharePost('${post._id}')" style="min-width:50px">
+                      <span class="money-need" style="font-size:22px">share</span>
+                    </div>
+                  </div>
+                </div>
+              `;
+             
+              postsContainer.appendChild(postElement);
+            });
+            skipCount += data.posts.length;
+            manageLoadMoreButton(data.posts.length);
+            document.getElementById('loading-overlay').style.display = 'none';
+          } 
+          else {
+            postsContainer.innerHTML = "<p>Failed to load posts.</p>";
+          }
+        } catch (error) {
+          console.error("Error fetching posts:", error);
+          postsContainer.innerHTML = "<p>Failed to load posts.</p>";
+        } finally {
+          isLoading = false;
+        }
+      }
+  
+      function manageLoadMoreButton(postsLoaded) {
+        let loadMoreButton = document.getElementById("loadMoreButton");
+        if (!loadMoreButton && postsLoaded === 10) {
+          loadMoreButton = document.createElement("button");
+          loadMoreButton.id = "loadMoreButton";
+          loadMoreButton.textContent = "Load More";
+          loadMoreButton.addEventListener("click", handleLoadMoreClick);
+          postsContainer.appendChild(loadMoreButton);
+        } else if (loadMoreButton && postsLoaded < 10) {
+          loadMoreButton.remove();
+        } else if (loadMoreButton) {
+          // Ensure button stays at the end
+          postsContainer.appendChild(loadMoreButton);
+        }
+      }
+  
+      function handleLoadMoreClick() {
+        if (loadMoreButtonEnabled) {
+          loadMoreButtonEnabled = false;
+          const loadMoreButton = document.getElementById("loadMoreButton");
+          loadMoreButton.textContent = "Loading...";
+          loadMoreButton.style.color = "#7f7f7f";
+          fetchAndRenderPosts(currentTag).then(() => {
+            loadMoreButton.textContent = "Load More";
+            loadMoreButtonEnabled = true;
+          });
+          loadMoreButton.disabled = true;
+          setTimeout(() => {
+            loadMoreButton.disabled = false;
+            loadMoreButton.style.color = "white";
+          }, loadMoreButtonCooldown);
+        }
+      }
+  
+      function handleTagClick(tag) {
+        currentTag = tag;
+        skipCount = 0;
+        postsContainer.innerHTML = "";
+        // Reset styles for all tag elements
+        document.querySelectorAll(".tag").forEach(tagElement => {
+           tagElement.style.background = ""; // Clear background for all tags
+        });
+        // Apply pressed style to the selected tag
+        const selectedTagElement = document.querySelector(`.tag[data-tag="${tag}"]`);
+        if (selectedTagElement) {
+          selectedTagElement.style.background = "#2a3236";
+        }
+        document.getElementById('loading-overlay').style.display = 'flex';
+        fetchAndRenderPosts(currentTag);
+      }
+  
+      // Set up tag click listeners (if logged in)
+      if (isLoggedIn) {
+        const tagMappings = [
+          { selector: ".t-1", tag: "" },
+          { selector: ".t-2", tag: "Bazaar" },
+          { selector: ".t-3", tag: "Admire Apsara" },
+          { selector: ".t-4", tag: "Influencers" },
+          { selector: ".t-5", tag: "Kinks and Fantasies" },
+          { selector: ".t-6", tag: "Apsara Fakes" },
+          { selector: ".s-1", tag: "" },
+          { selector: ".s-5", tag: "My Feed" },
+          { selector: ".s-2", tag: "Hot" },
+          { selector: ".s-3", tag: "Top" },
+          { selector: ".s-4", tag: "Rising" }
+        ];
+        tagMappings.forEach(mapping => {
+          const elem = document.querySelector(mapping.selector);
+          if (elem) {
+            elem.addEventListener("click", () => handleTagClick(mapping.tag));
+          }
+        });
+      }
+  
+    
+      let scrollTimeout;
+       window.addEventListener("scroll", () => {
+         // Clear the previous timeout to prevent multiple calls
+         clearTimeout(scrollTimeout);
+         // Set a new timeout to trigger the fetch after a delay
+         scrollTimeout = setTimeout(() => {
+           const scrollPosition = window.scrollY + window.innerHeight;
+           const documentHeight = document.documentElement.scrollHeight;
+           if (scrollPosition >= documentHeight * 0.9 && !isLoading) {
+             fetchAndRenderPosts(currentTag);
+           }
+         }, 200); // Adjust the delay (in milliseconds) as needed
+       });
+  
+      // Initial fetch of posts
+      fetchAndRenderPosts();
+    }
+    
+    /* =======================
+       Play Type Options
+    ======================= */
+    function initPlayTypeOptions() {
+      const options = document.querySelectorAll(".play-type div");
+      const handleOptionClick = (event) => {
+        const clickedOption = event.currentTarget;
+        const clickedClass = clickedOption.classList[0];
+        if (clickedClass === "pt-profile") {
+          showprofile(1);
+          return;
+        }
+      };
+      options.forEach(option => option.addEventListener("click", handleOptionClick)); 
+    }
+  
+    /* =======================
+       Initialization
+    ======================= */
+    // Injected server variables – ensure userLikes is a proper JSON string
+    let userID = "<%= user ? user.username : 'null' %>";
+    const isLoggedIn = userID !== "null";
+    let userLikes = [];
+    try {
+      userLikes = "<%= user && user.likes ? user.likes : [] %>";
+    } catch (e) {
+      console.error("Error parsing userLikes:", e);
+    }
+  
+    // If the user is not logged in, adjust layout accordingly
+    if (!isLoggedIn) {
+      const postsContainer = document.getElementById("posts");
+      if (postsContainer) postsContainer.style.marginTop = "60px";
+    }
+    if(isLoggedIn){
+  document.getElementById('chat-btn').addEventListener('click', function() {
+    // Show the loading overlay
+    document.getElementById('loading-overlay').style.display = 'flex';
+    setTimeout(function() {
+      window.location.href = '/chats';
+    }, 750);  // 100ms delay so the overlay appears
+  });
+ }
+  
+    // Initialize all modules after DOM is loaded
+    document.addEventListener("DOMContentLoaded", function () {
+      initDropdownMenu();
+      initPosts();
+      initPlayTypeOptions();
+    });
+
+
+    // Expose functions used in inline HTML (assumed to be defined elsewhere)
+    window.addLike = addLike;
+    window.fetchComments = fetchComments;
+  })();
+ 
+  function selectOption(option) {
+    document.getElementById('hot').checked = option === 'Hot';
+    document.getElementById('top').checked = option === 'Top';
+    document.getElementById('myfeed').checked = option === 'My Feed';
+    document.getElementById('rising').checked = option === 'Rising';
+    dropdownMenu.classList.remove('show');
+  }
+ 
+  function loadpostdetails(id){
+    document.getElementById('loading-overlay').style.display = 'flex';
+    setTimeout(function() {
+      window.location.href = `/post/details/${id}`;
+    }, 750);  // 100ms delay so the overlay appears
+  }
+
+
+  window.addEventListener('pageshow', function(event) {
+    // If the page was loaded from the bfcache, event.persisted will be true
+    if (event.persisted) {
+      document.getElementById('loading-overlay').style.display = 'none';
+    }
+  });
+ 
+ </script>
+  
+</body>
+
+</html>

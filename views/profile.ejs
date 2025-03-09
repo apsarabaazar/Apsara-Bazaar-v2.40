@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apsara Bazaar-Profile</title>
+  <link rel="stylesheet" href="/css/index.css" />
+  <link rel="stylesheet" href="/css/add-index.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="shortcut icon" href="/icons/logo.png" type="image/x-icon" />
+  <style>
+    .profile-head {
+      margin-top: 60px;
+      width: 100%;
+      background: #202020;
+      padding: 8px 0px;
+      padding-bottom: 16px;
+    }
+
+    .ph-pic {
+      margin-left: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .p-pack {
+      background: black;
+      width: max-content;
+      border-radius: 50px;
+      height: 64px;
+    }
+
+    .ph-name {
+      margin-top: 8px;
+      font-size: 24px;
+      margin-left: 8px;
+    }
+    .chat{
+      margin-right: 20px;
+    border: 2px solid white;
+    height: min-content;
+    border-radius: 38px;
+    padding: 0px 2px 0px 2px;
+    margin-top: 12px;
+    }
+
+    .ph-username {
+      margin-top: 8px;
+      font-size: 16px;
+      display: flex;
+      justify-content: space-between;
+      width: 90%;
+      margin-left: 8px;
+    }
+
+    .profile-menu {
+      --font-color-dark: #bebfc5;
+      --font-color-light: #bebfc5;
+      --bg-color: #212121;
+      --main-color: #0c0c0c;
+      --secondary-color: #141414;
+      position: relative;
+      width: 100%;
+      height: 44px;
+      background-color: var(--bg-color);
+      display: flex;
+      flex-direction: row;
+      padding-bottom: 12px;
+    }
+
+    .option {
+      margin-right: 5px;
+      width: 50%;
+      height: 40px;
+      position: relative;
+      top: 2px;
+      left: 2px;
+      border-radius: 34px;
+      transition: 0.25s cubic-bezier(0, 0, 0, 1);
+      font-size: 20px;
+    }
+
+    .option:last-child {
+      margin-right: 4px;
+    }
+
+    .option:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .option:hover .span {
+      color: var(--font-color-light);
+    }
+
+    .input {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .btn {
+      width: 100%;
+      height: 100%;
+      border-radius: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .span {
+      color: var(--font-color-dark);
+    }
+
+    .input:checked+.btn {
+      background-color: var(--main-color);
+      transition: 0.2s cubic-bezier(0, 0, 0, 1);
+    }
+
+    .input:checked+.btn .span {
+      color: var(--font-color-light);
+      transition: 0.25s cubic-bezier(0, 0, 0, 1);
+    }
+
+    .user-comment {
+      padding: 16px;
+      background-color: #202020;
+      color: #bebfc5;
+    }
+
+    .user-comment-item {
+      padding: 12px;
+      margin-bottom: 10px;
+      background-color: #141414;
+      border-radius: 8px;
+    }
+
+    .user-comment-author {
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .user-comment-body {
+      margin: 8px 0;
+    }
+
+    .user-comment-reply {
+      margin-left: 12px;
+      padding: 4px 0;
+      font-size: 14px;
+    }
+
+    .reply-username {
+      font-weight: bold;
+      color: white;
+    }
+
+    .content {
+      margin-top: 0px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="l-nav" onclick="window.location.href='/'" style="cursor: pointer">
+      &nbsp; Apsara Bazaar
+    </div>
+    <div class="r-nav">
+      <% if (!user) { %>
+      <div><a href="/auth/login">Login</a></div>
+      <% } else { %>
+      <div class="showmenu">
+        <button class="add-post" onclick="window.location.href='/auth/create-post'">
+          <img src="/icons/add.gif" alt="" width="44px" />
+        </button>
+        &nbsp;&nbsp;&nbsp;
+        <button class="menu-btn" onclick="showprofile(1)">
+          <img src="/icons/profile.gif" alt="Your GIF" class="gif-overlay" width="32px" />
+        </button>
+      </div>
+      <% } %>
+    </div>
+  </nav>
+  <div class="profile-head">
+    <div class="ph-pic">
+      <div class="p-pack">
+        <img src="/icons/profile.gif" alt="" style="width: 48px; padding: 8px" />
+      </div>
+      <div class="chat">
+        <button style="background: transparent;border: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="38px" >
+            <g data-name="chat android app aplication phone">
+      
+              <path d="M16 8C9.93 8 5 11.59 5 16c0 2.43 1.45 4.66 4 6.18V25a1 1 0 0 0 1.55.83l3-2A15 15 0 0 0 16 24c6.07 0 11-3.59 11-8s-4.93-8-11-8zm0 14a13.6 13.6 0 0 1-2.44-.23 1 1 0 0 0-.74.15L11 23.13v-1.54a1 1 0 0 0-.53-.88C8.26 19.55 7 17.83 7 16c0-3.31 4-6 9-6s9 2.69 9 6-4 6-9 6z" fill="#ffffff" />
+              <circle cx="16" cy="16" r="1"fill="#ffffff"/>
+              <circle cx="20" cy="16" r="1"fill="#ffffff"/>
+              <circle cx="12" cy="16" r="1"fill="#ffffff"/>
+            </g></svg></button>
+      </div>
+    </div>
+    <div class="ph-name">
+      <h5><%=user.name%></h5>
+    </div>
+    <div class="ph-username">
+      <span><%=user.username%></span>
+      <span><%=user.likes.length%> Likes</span>
+    </div>
+  </div>
+  <div class="profile-menu">
+    <div class="option" onclick="loadMorePosts() , Show(1)">
+      <input value="option1" name="btn" type="radio" class="input" />
+      <div class="btn">
+        <span class="span">Posts</span>
+      </div>
+    </div>
+    <div class="option" onclick="fetchUserComments('<%=user.username%>') ,Show(2)">
+      <input value="option2" name="btn" type="radio" class="input" />
+      <div class="btn">
+        <span class="span">Comments</span>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <!-- Shows posts or either comments -->
+     <div id="up-wrapper" style="width: 100%;">
+      <div class="user-posts" id="u-post">      
+      </div>
+      <button id="loadMoreButton" onclick="loadMorePosts()" style="display: none;     margin: 8px auto;">
+        Load More
+      </button>
+     </div>
+    
+    
+
+    <div class="user-comment" id="u-comment"></div>
+  </div>
+
+  <% if (user) { %>
+  <div id="overlay">
+    <div id="content">
+      <div class="stclose">
+        <button class="clm" style="background-color: #ffa27f00" onclick="showprofile(2)">
+          <span class="money-need" style="font-size: 26px"> close </span>
+        </button>
+      </div>
+      <div class="c-head">
+        <div class="p-pop">
+          <img src="/icons/profile.gif" alt="Your GIF" class="gif-overlay" width="40px" />
+          &nbsp;&nbsp;<%= user.name.split(' ')[0] %>
+        </div>
+      </div>
+
+      <div class="p-options">
+        <div class="p-profile" onclick="window.location.href='/my-profile'">
+          <img src="/icons/profile.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;<button>My Profile</button>
+        </div>
+        <div class="donation" onclick="window.location.href='/donation'">
+          <img src="/icons/donation.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;<button>Donate Us</button>
+        </div>
+        <div class="term">
+          <img src="/icons/term.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;
+          <button>
+            <a href="/asset/T&C.pdf" style="text-decoration: none; color: inherit; font-size: 18px">Term and Conditions</a>
+          </button>
+        </div>
+        <div class="contact">
+          <span class="money-need">contact_support</span>&nbsp;&nbsp;
+          <button>
+            <a href="/asset/T&C.pdf" style="text-decoration: none; color: inherit; font-size: 18px">Help and Support</a>
+          </button>
+        </div>
+        <div class="app">
+          <span class="money-need"> download </span>&nbsp;&nbsp;<button id="install-button" onclick="install()">
+            Install App
+          </button>
+        </div>
+        <div class="logout">
+          <span class="money-need"> logout </span>&nbsp;&nbsp;<button>
+            <a style="font-size: 16px" href="/auth/logout">Logout</a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+    <!-- Full-Screen Image Display (simplified) -->
+    <div id="fullScreenImageContainer" class="image-overlay" onclick="closeFullscreenImage()">
+      <img id="fullScreenImage" src="" alt="Full screen view" />
+    </div>
+
+  <script>
+
+
+
+    function Show(a){
+      if(a===1){
+        let b=document.getElementById("up-wrapper");
+        b.style.display="block";
+        let c=document.getElementById("u-comment");
+        c.style.display="none";
+              
+      }
+      else{
+        let b=document.getElementById("up-wrapper");
+        b.style.display="none";
+        let c=document.getElementById("u-comment");
+        c.style.display="block";
+
+      }
+    }
+    function showprofile(n) {
+      let o = document.getElementById("overlay");
+      let c = document.getElementById("content");
+      if (n === 1) {
+        o.style.display = "flex";
+        c.style.display = "flex";
+        // Trigger a reflow to ensure the browser notices the change
+        c.offsetHeight; // This forces a reflow
+        c.style.height = "70vh";
+      } else {
+        c.style.height = "0vh";
+        setTimeout(() => {
+          o.style.display = "none";
+          c.style.display = "none";
+        }, 500); // Delay matches the transition duration
+      }
+    }
+
+    async function fetchUserComments(username) {
+      try {
+        // Fetch user comments from the API
+        const response = await fetch("/user/comments", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const comments = await response.json();
+
+        // Get the comment section element
+        const commentSection = document.querySelector(".user-comment");
+
+        // Clear existing comments
+        commentSection.innerHTML = "";
+
+        // Display each comment dynamically
+        comments.forEach((comment) => {
+          const commentDiv = document.createElement("div");
+          commentDiv.classList.add("user-comment-item"); // add a CSS class to style the comment
+
+          // Populate the comment div
+          commentDiv.innerHTML = `
+                <div class="user-comment-author">${comment.Author}</div>
+                <div class="user-comment-body">${comment.body}</div>
+                <div class="user-comment-subBody">
+                    ${comment.subBody
+                      .map(
+                        (sub) => `
+                        <div class="comment-reply">
+                            <span class="reply-username">${sub.username}:</span>
+                            <span class="reply-content">${sub.content}</span>
+                        </div>
+                    `
+                      )
+                      .join("")}
+                </div>
+            `;
+
+          // Append the commentDiv to the comment section
+          commentSection.appendChild(commentDiv);
+        });
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
+    }
+
+    let skip = 0;
+    const limit = 10; // Number of posts to fetch per request
+    const userLikes = "<%=user.likes%>";
+    const userLikesArray = userLikes ? userLikes.split(',') : [];
+    let userID = "<%= user ? user.username : '' %>";
+    console.log("likes:"+userLikes)
+    console.log("username:"+userID)
+
+    async function loadMorePosts() {
+      const username = "<%= user.username %>"; // Use EJS to insert the username from the server
+      const loadMoreButton = document.getElementById("loadMoreButton");
+      loadMoreButton.textContent = "Loading...";
+      loadMoreButton.style.color = "#7f7f7f";
+      
+
+
+      try {
+        // Fetch posts with skip and limit for pagination
+        const response = await fetch("/user/posts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            skip,
+            limit
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const postsWithImages = await response.json();
+
+        // Increment the skip counter
+        skip += postsWithImages.length;
+
+        // Update the UI with the fetched posts
+        displayPosts(postsWithImages,userLikes,userID);
+
+        // Show or hide the "Load More" button based on whether more posts are available
+        document.getElementById("loadMoreButton").style.display =
+          postsWithImages.length === limit ? "block" : "none";
+
+          loadMoreButton.textContent = "Load More";
+          loadMoreButton.style.color = "white";
+          loadMoreButton.disabled = false;
+
+      } catch (error) {
+        console.error("Error fetching user posts:", error);
+      }
+    }
+
+    // Function to dynamically build and display posts
+    function displayPosts(postsWithImages, userLikes, userID) {
+      const postContainer = document.querySelector(".user-posts");
+
+      postsWithImages.forEach(({
+        post,
+        images
+      }) => {
+        const postElement = document.createElement("div");
+        postElement.classList.add("post-card");
+
+        // Determine if the user has liked this post
+        const isLiked = userLikesArray.includes(post._id);
+        const likeIcon = isLiked ? "/icons/liked.png" : "/icons/like.gif";
+
+        // Building the HTML structure for each post
+        postElement.innerHTML = `
+            <div class="card-head">
+                <div class="card-author" style="display: flex; align-items: center;"onclick="redirectToProfile('${post.author}')">
+                    <img src="/icons/profile.gif" alt="profile image">
+                    &nbsp;&nbsp;/${post.author}&nbsp;&nbsp;&nbsp;
+                </div>
+            </div>
+            <div class="card-title">
+                <h3><a href='/post/details/${
+                  post._id
+                }' style="text-decoration: none; color: inherit;">${
+            post.title
+          }</a></h3>
+            </div>
+
+            ${
+              images.length > 0
+                ? `
+                <div class="img-container">
+                    ${
+                      images.length > 1
+                        ? `<button class="slider-btn s-l" onclick="prevImage('${post._id}')">&#10094;</button>`
+                        : ""
+                    }
+                    <img id="img-${post._id}" 
+                         src="${images[0].src}" 
+                         alt="${post.title} image"
+                         data-images='${JSON.stringify(
+                           images.map((img) => img.src)
+                         )}'
+                         onclick="openFullscreenImage('${post._id}')"
+                         loading="lazy">
+                    ${
+                      images.length > 1
+                        ? `<button class="slider-btn s-r" onclick="nextImage('${post._id}')">&#10095;</button>`
+                        : ""
+                    }
+                </div>
+            `
+                : "<p>No attachments found for this post.</p>"
+            }
+
+            <div class="card-interaction">
+                <div class="c-i-left">
+                    <div class="likes" onclick="addLike('${
+                      post._id
+                    }','${userID}')">
+                        <img id="like-icon-${
+                          post._id
+                        }" src="${likeIcon}" alt="like icon" />
+                        <p class="like-count" id="like-count-${post._id}">${
+            post.likes
+          }</p>
+                    </div>
+                    <div class="comment" onclick="fetchComments('${post._id}')">
+                        <img src="/icons/comment.gif" alt="comment icon"> ${
+                          post.comments
+                        }
+                    </div>
+                </div>
+                <div class="c-i-right">
+                    <div class="share" onclick="sharePost('${
+                      post._id
+                    }')" style="min-width:50px">
+                        <span class="money-need" style="font-size:22px">share</span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Append the post element to the main post container
+        postContainer.appendChild(postElement);
+      });
+    }
+
+    
+    const currentImageIndexes = {};
+
+    function prevImage(postId) {
+      const imgElem = document.getElementById(`img-${postId}`);
+      const images = JSON.parse(imgElem.getAttribute('data-images'));
+      // Initialize index if not set for this postId
+      currentImageIndexes[postId] = currentImageIndexes[postId] || 0;
+      currentImageIndexes[postId] = (currentImageIndexes[postId] > 0) ? currentImageIndexes[postId] - 1 : images.length - 1;
+
+      // Update image src
+      imgElem.src = images[currentImageIndexes[postId]];
+    }
+
+    function nextImage(postId) {
+      const imgElem = document.getElementById(`img-${postId}`);
+      const images = JSON.parse(imgElem.getAttribute('data-images'));
+      // Initialize index if not set for this postId
+      currentImageIndexes[postId] = currentImageIndexes[postId] || 0;
+      currentImageIndexes[postId] = (currentImageIndexes[postId] < images.length - 1) ? currentImageIndexes[postId] + 1 : 0;
+
+      // Update image src
+      imgElem.src = images[currentImageIndexes[postId]];
+    }
+
+    function openFullscreenImage(postId) {
+      const imgElem = document.getElementById(`img-${postId}`);
+      document.getElementById('fullScreenImage').src = imgElem.src;
+      document.getElementById('fullScreenImageContainer').style.display = 'flex';
+    }
+
+    function closeFullscreenImage() {
+      document.getElementById('fullScreenImageContainer').style.display = 'none';
+    }
+
+    function addLike(postId, username) {
+      // Client-side check: Redirect to login if username is not provided or invalid
+      if (!username || username === "null") {
+        window.location.href = "/auth/login";
+        return; // Exit the function early
+      }
+
+      // Server request to add like
+      fetch(`/post/addlike/${postId}/${username}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => response.json().then(data => ({
+          status: response.status,
+          body: data
+        }))) // Extract status and data
+        .then(({
+          status,
+          body
+        }) => {
+          const likesElem = document.getElementById(`like-count-${postId}`);
+          const likeIconElem = document.getElementById(`like-icon-${postId}`); // Get the like icon element
+
+          if (status === 200) {
+            // Successfully added like
+            let currentLikes = parseInt(likesElem.innerHTML); // Get the current likes count from the DOM
+            likesElem.innerHTML = currentLikes + 1; // Increment the displayed likes count by 1
+
+            // Change the like icon to liked.png
+            likeIconElem.src = "/icons/liked.png";
+
+          } else if (status === 401) {
+            // Server-side authentication failure; redirect to login
+            window.location.href = "/auth/login";
+          } else if (status === 400) {
+            // Already liked
+            alert(body.message || 'You have already liked this post.');
+          } else {
+            // Other errors
+            console.error('Unexpected error:', body);
+            alert('An error occurred while adding the like.');
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function fetchComments(postId) {
+      fetch(`/post/comments/${postId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => {
+          if (response.status === 401) {
+            // User not authenticated; redirect to login
+            window.location.href = "/auth/login";
+            return;
+          } else if (response.status === 404) {
+            alert("Post not found.");
+            return;
+          } else if (!response.ok) {
+            // Handle other errors
+            alert("An error occurred while fetching comments.");
+            return;
+          }
+          // If authenticated, redirect to comments page
+          window.location.href = `/post/comments/${postId}`;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function sharePost(postId) {
+      const shareData = {
+        title: 'Check out this post on Apsara Bazaar!',
+        text: 'Here’s an interesting post I found:',
+        url: `https://apsarabazaar.onrender.com/post/details/${postId}`
+      };
+
+      if (navigator.share) {
+        copyToClipboard(shareData.url);
+      } else {
+        copyToClipboard(shareData.url);
+      }
+    }
+
+    function copyToClipboard(text) {
+      const tempInput = document.createElement("input");
+      tempInput.style.position = "absolute";
+      tempInput.style.left = "-9999px";
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+    }
+    function redirectToProfile(username) {
+    window.location.href = `/user/profile/${username}`;
+  }
+ 
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelector(".chat button").addEventListener("click", async function() {
+        const username =userID
+        if (!username) return;
+
+        try {
+            const response = await fetch("/rooms/join", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                if (data.room) {
+                    // If room exists, redirect to chat
+                    window.location.href = `/rooms/chat?username=${data.username}&name=${data.name}&roomCode=${data.roomCode}&roomName=${data.roomName}`;
+                } else {
+                    alert(data.message);
+                }
+            } else {
+                alert(data.error);
+            }
+        } catch (err) {
+            console.error("Error joining chat:", err);
+        }
+    });
+});
+
+
+  
+
+  </script>
+</body>
+
+</html>

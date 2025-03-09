@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="shortcut icon" href="/icons/logo.png" type="image/x-icon">
+  <title>Apsara bazaar-Chats</title>
+  <meta name="description" content="Explore Apsara Bazaar – your ultimate portal to Bollywood glamour. Enjoy exclusive behind-the-scenes updates and celebrity news on top Indian actresses." />
+  <meta name="keywords" content="Apsara Bazaar, Bollywood, Indian Actresses, Celebrity News, Bollywood Updates, Behind the Scenes, Kiara Advani, Disha Patani, Yami Gautam, Anushka Sharma, Bollywood Insider" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/chats.css" />
+  <style>
+    .play-type{
+  width: 100%;
+  height: 54px;
+  background-color: #0e1113;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid #26282a;
+ 
+}
+.play-type p{
+  font-size: 10px;
+  font-family: Bitter;
+  font-weight: 700;
+}
+.explore,.arena,.rush,.pt-profile{
+  display: flex
+  ;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+}
+#content2{
+width: 100%;
+height: 0vh;
+background-color: #202020;
+display: none;
+flex-direction: column;
+justify-content: space-evenly;
+align-items: center;
+position: relative;
+border-top-left-radius: 30px;
+border-top-right-radius: 30px;
+transition: all .5s ease-out; /* Added transition for width */
+overflow: hidden;
+}
+.c-head{
+font-size: 30px;
+color: white;
+font-family: Sedan SC;
+width: 70%;
+height: 60px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+.p-pop{
+width: 80%;
+height: 100%;
+display: flex;
+align-items: center;
+background-color: #333;
+border-radius: 15px;
+padding-left: 15px;
+}
+.p-options{
+width: 70%;
+display: flex;
+flex-direction: column;
+height: 70%;
+justify-content: space-evenly;
+padding-left: 15px;
+background-color: #333;
+border-radius: 20px;
+}
+a{
+color: white;
+text-decoration: none;
+font-size: 18px;
+word-wrap: break-word; /* Ensures words break when they exceed the container's width */
+  overflow-wrap: break-word; /* Modern equivalent for better browser support */
+  white-space: normal; /* Allows text to wrap */
+}
+.p-profile,.donation,.logout,.term,.app ,.contact{
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #000000;
+  width: calc(100% - 15px);
+}
+.p-options button{
+width: 190px;
+height: 32px;
+font-size: 16px;
+color: white;
+background-color: transparent;
+border: none;
+border-radius: 15px;
+cursor: pointer;
+display: flex;
+align-items: center;
+padding-left: 8px;
+}
+.p-options button:hover{
+background-color: #202020;
+}
+.active-user {
+  width: 40%;
+  margin-top: 44px;
+  background-color: #0e1113;
+  z-index: 25;
+  height: 10px;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  margin-left: calc(100vw - 94%);
+}
+
+@media (max-width: 350px) {
+  .active-user {
+    margin-left: calc(100vw - 96%);
+  }
+}
+
+
+.active-user-logo{
+  width: 8px;
+  height: 8px;
+  background-color: #01a816;
+  border-radius: 50%;
+}
+#user-numb{
+  font-family: Bitter;
+  font-size: 12px;
+
+}
+li a{
+  font-size: 22px;
+}
+  </style>
+<link rel="stylesheet" href="/css/add-index.css">
+
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="l-nav">&nbsp; Apsara Bazaar</div>
+    <div class="r-nav">
+      <% if (!user) { %>
+      <div><a href="/auth/login">Login</a></div>
+      <% } else { %>
+      <div class="showmenu">
+        <button class="add-post" onclick="window.location.href='/auth/create-post'">
+          <img src="/icons/add.gif" alt="" width="44px" />
+        </button>
+
+      </div>
+      <% } %>
+    </div>
+  </nav>
+
+
+  <% if (user) { %>
+  <div class="active-user">
+    <div class="active-user-logo"></div>
+    <p id="user-numb">&nbsp;<%=nuser%> online</p>
+  </div>
+  <% } %>
+
+  <% if (user) { %>
+  <div class="room-options">
+    <div class="room-head">
+      <h4 >Chats</h4>
+      <button type="submit" class="btn" style="width: 32px" onclick="search(1)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="22px">
+          <path d="M21.15 19.74a12 12 0 1 0-1.41 1.41l10.55 10.56 1.41-1.41zM12 22a10 10 0 1 1 10-10 10 10 0 0 1-10 10z" data-name="49-Search" fill="#ffffff" />
+        </svg>
+      </button>
+    </div>
+    <% if (user) { %>
+    <ul class="my-chats">
+      <li>
+        <div class="chat-profile" data-url="/rooms/chat?username=<%= user.username %>&name=<%= user.name %>&roomCode=7UI3IX&roomName=General Chat Room">
+          <img src="/icons/profile.gif" alt="" width="32px">
+        </div>
+        
+        <a href="/rooms/chat?username=<%= user.username %>&name=<%= user.name %>&roomCode=7UI3IX&roomName=General Chat Room">
+          General Chat Room
+        </a>
+        <!-- <p class="room-code">KWP5IF</p> -->
+      </li>
+      <% if (rooms && rooms.length> 0) { %>
+      <% rooms.forEach(room=> { %>
+      <li>
+        <div class="chat-profile" data-url="/rooms/chat?username=<%= user.username %>&name=<%= user.name %>&roomCode=<%= room.code %>&roomName=<%= room.name %>">
+          <img src="/icons/profile.gif" alt="" width="32px" />
+        </div>
+        <% let otherUserName = room.name.split(' - ').find(n => n !==user.name); %>
+        <a href="/rooms/chat?username=<%= user.username %>&name=<%= user.name %>&roomCode=<%= room.code %>&roomName=<%= otherUserName.split(' ')[0]%>">
+          <%= otherUserName.split(' ')[0]%>
+        </a>
+        <!-- <p class="room-code"><%= room.code %></p> -->
+      </li>
+      <% }) %>
+
+      <% } %>
+
+      
+    </ul>
+    <% } %>
+  </div>
+  <% } %>
+</body>
+
+<div id="overlay">
+  <div id="content">
+    <div class="stclose">
+      <button class="clm" style="background-color: #ffa27f00" onclick="search(2)">
+        <span class="money-need" style="font-size: 26px"> close </span>
+      </button>
+
+    </div>
+    <form action="/rooms/join" method="post">
+      <h4 class="form-head">Enter users's username to chat with them.</h4>
+      <div class="field">
+        <div class="group">
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
+            <g>
+              <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+            </g>
+          </svg>
+          <input class="input" type="text" name="username" placeholder="Enter username" class="input-field" />
+        </div>
+        <!-- <input type="text" name="username" placeholder="Search username" class="input-field" required /> -->
+      </div>
+
+      <button type="submit">Create Chat</button>
+    </form>
+   
+  </div>
+  <div id="content2">
+    <div class="stclose">
+      <button class="clm" style="background-color: #ffa27f00" onclick="showprofile(2)">
+        <span class="money-need" style="font-size: 26px"> close </span>
+      </button>
+
+    </div>
+    <div class="c-head">
+      <div class="p-pop">
+        <img src="/icons/profile.gif" alt="Your GIF" class="gif-overlay" width="40px" />
+        &nbsp;&nbsp;<%= user.name.split(' ')[0] %>
+      </div>
+    </div>
+    <div class="p-options">
+      <div class="p-profile" onclick="window.location.href='/my-profile'">
+        <img src="/icons/profile.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;<button>My Profile</button>
+      </div>
+      <div class="donation" onclick="window.location.href='/donation'">
+        <img src="/icons/donation.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;<button>Donate Us</button>
+      </div>
+      <div class="term">
+        <img src="/icons/term.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;
+        <button> <a href="/asset/T&C.pdf" style="text-decoration: none; color: inherit;font-size: 16px;">Term and Conditions</a></button>
+      </div>
+      <div class="contact">
+        <span class="money-need"> contact_support </span>&nbsp;&nbsp;
+        <button onclick="window.location.href='mailto:apsarabaazar@gmail.com';">Contact Us</button>
+      </div>
+      <div class="app">
+        <span class="money-need"> download </span>&nbsp;&nbsp;<button id="install-button" onclick="install()">Install App</button>
+      </div>
+      <div class="logout">
+        <span class="money-need"> logout </span>&nbsp;&nbsp;<button>
+          <a style="font-size: 16px" href="/auth/logout">Logout</a>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+
+<% if (user) { %>
+<div class="play-type">
+  <div class="arena" onclick="window.location.href='/'" >
+    <svg rpl="" height="24" icon-name="home-fill" viewBox="0 0 20 20" width="24" xmlns="http://www.w3.org/2000/svg">
+      <path d="m19.724 6.765-9.08-6.11A1.115 1.115 0 0 0 9.368.647L.276 6.765a.623.623 0 0 0 .35 1.141h.444v10.001c.001.278.113.544.31.74.196.195.462.304.739.303h5.16a.704.704 0 0 0 .706-.707v-4.507c0-.76 1.138-1.475 2.02-1.475.882 0 2.02.715 2.02 1.475v4.507a.71.71 0 0 0 .707.707h5.16c.274-.001.538-.112.732-.307.195-.195.305-.46.306-.736v-10h.445a.618.618 0 0 0 .598-.44.625.625 0 0 0-.25-.702Z" 
+            fill="none" 
+            stroke="currentColor" 
+            stroke-width="1.5"/>
+    </svg>
+    
+  </div>
+  <div class="rush" onclick="window.location.href='/chats'">
+   <svg rpl="" fill="#ffffff" height="24" icon-name="chat-outline" viewBox="0 0 20 20" width="24" xmlns="http://www.w3.org/2000/svg">
+          <mask id="dots-mask">
+            <rect width="100%" height="100%" fill="white"/>
+            <circle cx="6.006" cy="10" r="1" fill="black"/>
+            <circle cx="10.008" cy="10" r="1" fill="black"/>
+            <circle cx="14.011" cy="10" r="1" fill="black"/>
+          </mask>
+        
+          <path d="M11.61 19.872a10.013 10.013 0 0 0 6.51-4.035A9.999 9.999 0 0 0 12.275.264c-1.28-.3-2.606-.345-3.903-.132a10.05 10.05 0 0 0-8.25 8.311 9.877 9.877 0 0 0 1.202 6.491l-1.24 4.078a.727.727 0 0 0 .178.721.72.72 0 0 0 .72.19l4.17-1.193A9.87 9.87 0 0 0 9.998 20c.54 0 1.079-.043 1.612-.128Z" mask="url(#dots-mask)"/>
+        </svg>  
+  </div>
+
+  <% if (user) { %>
+  <div class="pt-profile">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32" xml:space="preserve" width="30px">
+      <path d="M16 31C7.729 31 1 24.271 1 16S7.729 1 16 1s15 6.729 15 15-6.729 15-15 15zm0-28C8.832 3 3 8.832 3 16s5.832 13 13 13 13-5.832 13-13S23.168 3 16 3z" fill="#ffffff" />
+      <circle cx="16" cy="11.368" r="3.368"fill="#ffffff"/>
+      <path d="M20.673 24h-9.346c-.83 0-1.502-.672-1.502-1.502v-.987a5.404 5.404 0 0 1 5.403-5.403h1.544a5.404 5.404 0 0 1 5.403 5.403v.987c0 .83-.672 1.502-1.502 1.502z"fill="#ffffff"/>
+    </svg>
+  </div>
+  <% } %>
+</div>
+<% } %>
+
+<div id="message-container" class="message-container">
+
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const chatProfiles = document.querySelectorAll(".chat-profile");
+    chatProfiles.forEach((profile) => {
+      profile.addEventListener("click", () => {
+        const url = profile.getAttribute("data-url");
+        window.location.href = url;
+      });
+    });
+  });
+
+
+
+
+  function search(n) {
+    let o = document.getElementById("overlay");
+    let c = document.getElementById("content");
+    let d = document.getElementById("content2");
+   
+    if (n === 1) {
+      o.style.display = "flex";
+      c.style.display = "flex";
+      // Trigger a reflow to ensure the browser notices the change
+      c.offsetHeight; // This forces a reflow
+      c.style.height = "100vh";
+    } else {
+      c.style.height = "0vh";
+      setTimeout(() => {
+        o.style.display = "none";
+        c.style.display = "none";
+      }, 500); // Delay matches the transition duration
+    }
+     d.style.display="none"
+  }
+
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector("form[action='/rooms/join']");
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      const formData = new FormData(form);
+      const username = formData.get("username").trim();
+
+      if (!username) {
+        alert("Please enter a username.");
+        return;
+      }
+
+      try {
+        const response = await fetch("/rooms/join", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          window.location.href = `/rooms/chat?username=${result.username}&name=${result.name}&roomCode=${result.roomCode}&roomName=${result.roomName}`;
+        } else {
+          displayMessage(
+            result.error || "An unexpected error occurred.",
+            "error"
+          );
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        displayMessage(
+          result.error || "An unexpected error occurred.",
+          "error"
+        );
+        alert("An error occurred while creating the chat.");
+      }
+    });
+  });
+
+
+  function displayMessage(message, type) {
+    const messageContainer = document.getElementById("message-container");
+
+    // Create a message element dynamically
+    const messageElement = document.createElement("div");
+    messageElement.className = `message ${type}`; // Apply type-specific styling
+    messageElement.textContent = message;
+
+    // Append the message element to the container
+    messageContainer.appendChild(messageElement);
+
+    // Automatically remove the message after 5 seconds
+    setTimeout(() => {
+      messageElement.remove();
+    }, 40000);
+  }
+
+  function initPlayTypeOptions() {
+      const options = document.querySelectorAll(".play-type div");
+      const handleOptionClick = (event) => {
+        const clickedOption = event.currentTarget;
+        const clickedClass = clickedOption.classList[0];
+        if (clickedClass === "pt-profile") {
+          showprofile(1);
+          return;
+        }
+      };
+      options.forEach(option => option.addEventListener("click", handleOptionClick)); 
+    }
+      // Call the function explicitly in the script
+      initPlayTypeOptions();
+
+      function showprofile(n) {
+  let o = document.getElementById("overlay");
+  let c = document.getElementById("content2");
+  let d = document.getElementById("content");
+  
+  if (n === 1) {
+    o.style.display = "flex";
+    c.style.display = "flex";
+    // Trigger a reflow to ensure the browser notices the change
+    c.offsetHeight; // This forces a reflow
+    c.style.height = "70vh";
+  } else {
+    c.style.height = "0vh";
+    setTimeout(() => {
+      o.style.display = "none";
+      c.style.display = "none";
+    }, 500); // Delay matches the transition duration
+  }
+  d.style.display="none"
+}
+
+
+</script>
+
+</html>

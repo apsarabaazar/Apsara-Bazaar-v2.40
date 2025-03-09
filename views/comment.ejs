@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apsara Bazaar-Comments</title>
+  <link rel="stylesheet" href="/css/comment.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/add-index.css">
+  <link rel="shortcut icon" href="/icons/logo.png" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Satisfy&display=swap');
+    *{
+      margin: 0;padding: 0;
+    }
+    body{
+      font-family: Bitter;
+      background: #0e1113;
+      padding: 0px;
+    }
+    .card-title h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+    /* Loading Overlay */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 2s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="l-nav" onclick="window.location.href='/'" style="cursor: pointer;">&nbsp; Apsara Bazaar</div>
+    <div class="r-nav">
+      <% if (!user) { %>
+      <div><a href="/auth/login">Login</a></div>
+      <% } else { %>
+      <div class="showmenu">
+        <button class="add-post" onclick="window.location.href='/auth/create-post'">
+          <img src="/icons/add.gif" alt="" width="44px" />
+        </button>
+        &nbsp;&nbsp;&nbsp;
+        <button class="menu-btn" onclick="showprofile(1)">
+          <img src="/icons/profile.gif" alt="Your GIF" class="gif-overlay" width="32px" />
+        </button>
+      </div>
+      <% } %>
+    </div>
+  </nav>
+  
+  <main style="margin: 0px auto;margin-top: 60px;width: 98%;">
+
+    <%- include('components/post-structure') %>
+    
+  </main>
+  
+  <div id="fullScreenImageContainer" class="image-overlay" onclick="closeFullscreenImage()">
+    <img id="fullScreenImage" src="" alt="Full screen view" />
+  </div>
+  
+  <% if (user) { %>
+    <div id="overlay">
+      <div id="content">
+        <div class="stclose">
+          <button class="clm" style="background-color: #ffa27f00" onclick="showprofile(2)">
+            <span class="money-need" style="font-size: 26px"> close </span>
+          </button>
+        </div>
+        <div class="c-head">
+          <div class="p-pop">
+            <img src="/icons/profile.gif" alt="Your GIF" class="gif-overlay" width="40px" />
+            &nbsp;&nbsp;<%= user.name.split(' ')[0] %>
+          </div>
+        </div>
+  
+        <div class="p-options">
+          <div class="p-profile" onclick="window.location.href='/my-profile'">
+            <img src="/icons/profile.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;<button>My Profile</button>
+          </div>
+          <div class="donation" onclick="window.location.href='/donation'">
+            <img src="/icons/donation.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;<button>Donate Us</button>
+          </div>
+          <div class="term">
+            <img src="/icons/term.gif" alt="Your GIF" class="gif-overlay" width="32px" />&nbsp;&nbsp;
+            <button> <a href="/asset/T&C.pdf" style="text-decoration: none; color: inherit;font-size: 18px;">Term and Conditions</a></button>
+          </div>
+          <div class="contact">
+            <span class="money-need">contact_support</span>&nbsp;&nbsp;
+            <button> <a href="/asset/T&C.pdf" style="text-decoration: none; color: inherit;font-size: 18px;">Help and Support</a></button>
+          </div>
+          <div class="app">
+            <span class="money-need"> download </span>&nbsp;&nbsp;<button id="install-button" onclick="install()">Install App</button>
+          </div>
+          <div class="logout">
+            <span class="money-need"> logout </span>&nbsp;&nbsp;<button>
+              <a style="font-size: 16px" href="/auth/logout">Logout</a>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+
+  <div class="comment-section">
+      <div class="comment-header"><!-- <span onclick="window.history.back()" style="cursor: pointer;">&larr;</span>--> Comments</div>  
+    <ul class="comment-list">
+      <% comments.forEach(comment => { %>
+        <li class="comment-item">
+          <div class="avatar"><img src="/icons/profile.gif" alt="" width="32px"></div>
+          <div class="comment-details">
+            <div class="comment-author"><%= comment.Author %><span class="comment-age"></span></div>
+            <div class="comment-text"><%= comment.body %></div>
+            <button class="reply-button" onclick="toggleReplyForm('<%= comment._id %>')">Reply</button>
+
+            <!-- Replies (Sub-comments) -->
+            <ul class="reply-list">
+              <% if (comment.subBody) { %>
+                <% comment.subBody.forEach(subBody => { %>
+                  <li class="reply-item">
+                    <div class="reply-avatar"><img src="/icons/profile.gif" alt="" width="24px"></div>
+                    <div class="reply-details">
+                      <div class="reply-author"><%= subBody.username %></div>
+                      <div class="reply-text"><%= subBody.content %></div>
+                    </div>
+                  </li>
+                <% }); %>
+              <% } %>
+            </ul>
+
+            <!-- Reply Form -->
+            <form id="replyForm-<%= comment._id %>" class="reply-form" action="/post/comments/<%= post._id %>/reply" method="POST" onsubmit="clearReplyInput();showLoadingOverlay()">
+              <input type="hidden" name="parentCommentId" value="<%= comment._id %>">
+              <input type="text" name="replyBody" placeholder="Write your reply here" required>
+              <button type="submit">Submit Reply</button>
+            </form>
+          </div>
+        </li>
+      <% }); %>
+    </ul>
+
+    <!-- New Comment Form -->
+    <form class="new-comment-form" action="/post/comments/<%= post._id %>/new" method="POST" onsubmit="clearCommentInput();showLoadingOverlay()">
+      <input type="text" name="commentBody" placeholder="Write your comment here" required>
+      <button type="submit">Submit Comment</button>
+    </form>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <script src="/js/posts.js"></script>
+  <script>
+
+    function clearCommentInput() {
+    const commentInput = document.getElementById('commentBody');
+    if (commentInput) {
+      commentInput.value = ''; // Clear the comment input
+    }
+  }
+  function clearReplyInput() {
+    const commentInput = document.getElementById('replyBody');
+    if (commentInput) {
+      commentInput.value = ''; // Clear the comment input
+    }
+  }
+    // JavaScript to toggle reply form visibility
+    function toggleReplyForm(commentId) {
+      const form = document.getElementById(`replyForm-${commentId}`);
+      if (form.style.display === 'block') {
+        form.style.display = 'none';
+      } else {
+        form.style.display = 'block';
+      }
+    }
+    // Show the loading overlay when a comment or reply is being submitted
+    function showLoadingOverlay() {
+      document.getElementById('loadingOverlay').style.display = 'flex';
+    }
+
+    function showprofile(n) {
+      let o = document.getElementById("overlay");
+      let c = document.getElementById("content");
+      if (n === 1) {
+        o.style.display = "flex";
+        c.style.display = "flex";
+        // Trigger a reflow to ensure the browser notices the change
+        c.offsetHeight; // This forces a reflow
+        c.style.height = "70vh";
+      } else {
+        c.style.height = "0vh";
+        setTimeout(() => {
+          o.style.display = "none";
+          c.style.display = "none";
+        }, 500); // Delay matches the transition duration
+      }
+    }
+
+    let userID = "<%= user ? user.username : 'null' %>";
+    let login=0;
+    if(userID!=="null"){
+        login=1;
+    }
+   const userLikes = "<%= user && user.likes ? user.likes : [] %>";
+  console.log("User Likes Array:", userLikes);
+  console.log("length:"+userLikes.length)
+
+  const postId = '<%= post._id %>';
+  console.log(postId)
+  const isLiked = userLikes.includes(postId);
+  const likeIcon = isLiked ? "/icons/liked.png" : "/icons/like.gif";
+
+  document.getElementById(`like-icon-${postId}`).src = likeIcon;
+  console.log("Is Liked:", isLiked);
+
+
+  function addLike(postId, username) {
+    
+    const likesElem = document.getElementById(`like-count-${postId}`);
+  const likeIconElem = document.getElementById(`like-icon-${postId}`); // Get the like icon element
+   // Successfully added like
+   let currentLikes = parseInt(likesElem.innerHTML); // Get the current likes count from the DOM
+
+   if (login===1) { 
+    likesElem.innerHTML = currentLikes + 1; // Increment the displayed likes count by 1
+    likeIconElem.src = "/icons/liked.png"; 
+       
+      }
+
+    fetch(`/post/addlike/${postId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(response => response.json().then(data => ({
+        status: response.status,
+        body: data
+      })))
+      .then(({ status, body }) => {
+        const likesElem = document.getElementById(`like-count-${postId}`);
+        const likeIconElem = document.getElementById(`like-icon-${postId}`);
+        if (status === 200) {
+          let currentLikes = parseInt(likesElem.innerHTML);
+          likesElem.innerHTML = currentLikes + 1;
+          likeIconElem.src = "/icons/liked.png";
+        } else if (status === 401) {
+          window.location.href = "/auth/login";
+        } else if (status === 400) {
+          alert(body.message || 'You have already liked this post.');
+        } else {
+          console.error('Unexpected error:', body);
+          alert('An error occurred while adding the like.');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  function fetchComments(postId) {
+    fetch(`/post/comments/${postId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(response => {
+        if (response.status === 401) {
+          window.location.href = "/auth/login";
+          return;
+        } else if (response.status === 404) {
+          alert("Post not found.");
+          return;
+        } else if (!response.ok) {
+          alert("An error occurred while fetching comments.");
+          return;
+        }
+        window.location.href = `/post/comments/${postId}`;
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  
+</script>
+  
+  </script>
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apsara Bazaar - Create Post</title>
+  <link rel="shortcut icon" href="/icons/logo.png" type="image/x-icon">
+
+  <!-- Include SortableJS from a CDN in the head or before your script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Satisfy&display=swap');
+    /* --------------------------
+       Global Styles
+    --------------------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212; /* Dark background */
+      color: #e0e0e0; /* Light text for readability */
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* --------------------------
+       Header / Navigation
+    --------------------------- */
+    header {
+      background: linear-gradient(45deg, #e91e63, #ff5722);
+      color: #fff;
+      padding: 1rem 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    .header-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-family: Satisfy;
+    }
+    nav a {
+      margin-left: 1rem;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    nav a:hover {
+      opacity: 0.8;
+    }
+
+    /* --------------------------
+       Main Container
+    --------------------------- */
+    main {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background-color: #1e1e1e;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 1.75rem;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    /* --------------------------
+       Form Styles
+    --------------------------- */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+    input[type="text"],
+    input[type="file"],
+    select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #444;
+      border-radius: 4px;
+      background-color: #333;
+      color: #e0e0e0;
+      outline: none;
+      font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input[type="text"]:focus,
+    input[type="file"]:focus,
+    select:focus {
+      border-color: #ff5722;
+      box-shadow: 0 0 4px rgba(255, 87, 34, 0.5);
+    }
+    small {
+      color: #888;
+      font-size: 0.85rem;
+    }
+
+    button {
+      background: linear-gradient(45deg, #ff5722, #e91e63);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+
+    /* --------------------------
+       Image Preview
+    --------------------------- */
+    .image-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .image-preview img {
+      max-width: 150px;
+      max-height: 150px;
+      border: 2px solid #ff5722;
+      border-radius: 4px;
+      transition: transform 0.2s, opacity 0.2s;
+      cursor: move; /* Indicate draggable */
+      object-fit: cover;
+    }
+    .image-preview img:hover {
+      transform: scale(1.02);
+    }
+    .image-preview img.dragging {
+      opacity: 0.5; /* Reduce opacity when dragging */
+    }
+
+    /* --------------------------
+       Overlay / Loading
+    --------------------------- */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      display: none; /* Initially hidden */
+    }
+    .loading-bar {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      font-size: 1.125rem;
+      color: #333;
+    }
+    .loading-bar .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #ff5722;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 1rem auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* --------------------------
+       Footer
+    --------------------------- */
+    footer {
+      text-align: center;
+      padding: 1rem 0;
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+
+    /* --------------------------
+       Responsive
+    --------------------------- */
+    @media (max-width: 600px) {
+      .header-content {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      nav {
+        display: flex;
+        justify-content: center;
+      }
+      nav a {
+        margin: 0 0.5rem;
+      }
+      main {
+        margin: 1rem;
+        padding: 1rem;
+      }
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="logo">Apsara Bazaar</div>
+      <!-- <nav>
+        <a href="/">Home</a>
+        <a href="/auth/logout">Logout</a>
+      </nav> -->
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main>
+    <h1>Create a New Post</h1>
+    <form id="postForm">
+      <!-- Title -->
+      <div>
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+      </div>
+
+      <!-- Tag -->
+      <div>
+        <label for="tag">Tag:</label>
+        <select id="tag" name="tag" required>
+          <option value="" disabled selected>Select a tag</option>
+          <option value="Bazaar">Bazaar</option>
+          <option value="Admire Apsara">Admire Apsara</option>
+          <option value="Influencers">Influencers</option>
+          <option value="Apsara Fakes">Apsara Fakes</option>
+          <option value="Kinks and Fantasies">Kinks and Fantasies</option>
+        </select>
+      </div>
+
+      <!-- Hidden body text -->
+      <input
+        type="hidden"
+        id="bodyText"
+        name="bodyText"
+        value="Ownership of this post now transferred to Apsara Bazaar"
+      >
+
+      <!-- File upload -->
+      <div>
+        <label for="file">Upload Media (up to 10 images):</label>
+        <input
+          type="file"
+          id="file"
+          name="images"
+          accept="image/*"
+          multiple
+          required
+          onchange="showImages(event)"
+        >
+        <small>Note: You can select up to 10 images. (Max 3MB each, 20MB total)</small>
+        <div class="image-preview" id="imagePreview"></div>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit">Submit Post</button>
+    </form>
+  </main>
+
+  <!-- Overlay for loading -->
+  <div class="overlay" id="overlay">
+    <div class="loading-bar">
+      <div class="spinner"></div>
+      Sending your post, please wait...
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; <span id="year"></span> Apsara Bazaar
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const MAX_IMAGE_SIZE = 3 * 1024 * 1024; // 3 MB
+    const MAX_TOTAL_SIZE = 20 * 1024 * 1024; // 20 MB
+    let imageFiles = []; // Store selected file objects with unique IDs
+
+    function showImages(event) {
+      const files = event.target.files;
+      const imagePreview = document.getElementById('imagePreview');
+      imagePreview.innerHTML = '';
+      imageFiles = [];
+      let totalSize = 0;
+
+      for (const file of files) {
+        if (file.size > MAX_IMAGE_SIZE) {
+          alert(`File ${file.name} exceeds 3 MB.`);
+          return;
+        }
+        totalSize += file.size;
+        if (totalSize > MAX_TOTAL_SIZE) {
+          alert('Total media size exceeds 20 MB.');
+          return;
+        }
+
+        // Assign a unique ID to the file
+        const uniqueId = Date.now() + Math.random();
+        file.id = uniqueId;
+        imageFiles.push(file);
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.setAttribute('data-id', uniqueId);
+          imagePreview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // Initialize SortableJS on the preview container
+      Sortable.create(imagePreview, {
+        animation: 150
+      });
+    }
+
+    document.getElementById('postForm').onsubmit = async function(event) {
+      event.preventDefault();
+
+      // Ensure at least one image is selected
+      if (imageFiles.length === 0) {
+        alert('Please select at least one image.');
+        return;
+      }
+
+      // Show overlay or loading indicator
+      const overlay = document.getElementById('overlay');
+      overlay.style.display = 'flex';
+
+      const formData = new FormData();
+      formData.append('title', document.getElementById('title').value);
+      formData.append('tag', document.getElementById('tag').value);
+      formData.append('bodyText', document.getElementById('bodyText').value);
+
+      // Reassemble the file order based on the sorted preview order
+      const imagePreview = document.getElementById('imagePreview');
+      const orderedIds = Array.from(imagePreview.children).map(img => img.getAttribute('data-id'));
+      const orderedFiles = [];
+
+      for (const id of orderedIds) {
+        const file = imageFiles.find(f => f.id == id);
+        if (file) orderedFiles.push(file);
+      }
+
+      // Append files to the FormData in the user-defined order
+      for (const file of orderedFiles) {
+        formData.append('images', file);
+      }
+
+      // Submit the form data
+      try {
+        const response = await fetch('/post/create', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await response.json();
+        overlay.style.display = 'none';
+
+        if (data.success) {
+          alert('Post created successfully!');
+          window.location.href = '/';
+        } else {
+          alert('Error creating post: ' + data.error);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        overlay.style.display = 'none';
+        alert('An error occurred. Please try again.');
+      }
+    };
+  </script>
+</body>
+</html>

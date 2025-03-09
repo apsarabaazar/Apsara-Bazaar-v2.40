@@ -1,0 +1,71 @@
+
+body {
+background-color: #121212; /* Dark background */
+color: #e0e0e0; /* Light text color */
+font-family: Arial, sans-serif;
+line-height: 1.6;
+margin: 0;
+padding: 20px;
+}
+
+h1 {
+color: #ffffff; /* White color for main title */
+margin-bottom: 10px;
+}
+
+h3 {
+color: #e0e0e0; /* Light grey for subheading */
+margin-bottom: 20px;
+}
+
+p {
+color: #b0b0b0; /* Lighter grey for normal text */
+margin-bottom: 15px;
+}
+
+.attachments {
+margin-top: 20px;
+border-top: 1px solid #333; /* Border to separate attachments section */
+padding-top: 10px;
+}
+
+.attachments img {
+max-width: 100%; /* Responsive images */
+height: auto; /* Maintain aspect ratio */
+border-radius: 5px; /* Slightly rounded corners */
+margin-bottom: 10px; /* Space between images */
+}
+
+.attachments p {
+color: #b0b0b0; /* Light grey for no attachments message */
+text-align: center; /* Center the message */
+}
+
+/* Link styles */
+a {
+color: #1e90ff; /* Bright blue for links */
+text-decoration: none; /* No underline */
+}
+
+a:hover {
+text-decoration: underline; /* Underline on hover */
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+body {
+padding: 10px; /* Less padding on smaller screens */
+}
+
+h1 {
+font-size: 24px; /* Smaller title font size */
+}
+
+h3 {
+font-size: 18px; /* Smaller subheading font size */
+}
+
+p {
+font-size: 14px; /* Smaller paragraph font size */
+}
+}

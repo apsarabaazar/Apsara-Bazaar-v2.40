@@ -1,0 +1,142 @@
+.post-card {
+  width: 100%;
+  max-width: 450px;
+  min-height: 450px;
+  height: auto;
+  background-color: #0e1113;
+  border-bottom: 3px solid rgb(0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #8ba2ad;
+}
+.card-head {
+  width: 92%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 32px;
+  font-size: 14px;
+  margin-top: 6px;
+}
+.card-author img {
+  width: 24px;
+  background-color: black;
+  padding: 4px;
+  border-radius: 50%;
+}
+.card-title {
+  width: 92%;
+  margin: 6px 0px;
+  height: auto;
+  min-height: 20px;
+  color: white;
+}
+.card-title h3 {
+  font-size: 18px;
+}
+.img-container {
+  max-width: 400px;
+  width: 92%;
+  max-height: 400px;
+  height: 77%;
+  min-height: 340px;
+  object-fit: contain;
+  position: relative;
+  background-color: black;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+.img-container img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  position: absolute;
+}
+.slider-controls {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.slider-controls button {
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  padding: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.slider-btn {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  z-index: 5;
+  font-size: 28px;
+  color: white;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.s-l {
+  bottom: 0;
+  left: 0;
+}
+.s-r {
+  bottom: 0;
+  right: 0;
+}
+
+.card-interaction {
+  width: 92%;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.c-i-left {
+  display: flex;
+  gap: 12px;
+}
+.likes,
+.comment,
+.share {
+  min-width: 70px;
+  width: auto;
+  height: 32px;
+  background-color: #2a3236;
+  font-size: 24px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 14px;
+}
+.money-need {
+    font-size: 30px;
+    font-weight: 110;
+    font-family: "Material Icons";
+    color: white;
+    }
+
+/* Full Screen CSS */
+.image-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.image-overlay img {
+  max-width: 90%;
+  max-height: 90%;
+}

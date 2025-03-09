@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Satisfy&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    --color: rgba(114, 114, 114, 0.3);
+    background-color: #191a1a;
+    background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
+        linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
+        background-size: 55px 55px;
+    font-family: Arial, sans-serif;
+   color: white;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   height: 100vh;
+}
+.form-head{
+    font-size: 35px;
+    font-family: "fantasy";
+    text-decoration: underline;
+}
+form {
+    width: 290px;
+    height: 300px;
+    background: #333;
+    border-radius: 15px;
+    border: 3px solid white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+form div{
+    width: 90%;
+}
+form button{
+    width: 120px;
+    height: 35px;
+    font-size: 20px;
+    border: 2px solid white;
+    background: transparent;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+form button:hover{
+    background-color: #202020;
+}
+form span{
+    display: none;
+    height: 20px;
+    background-color: #202020;
+    margin-top: 5px;
+    padding: 3px 9px;
+    border-radius: 10px;
+    font-family: Bitter;
+    font-size: 14px;
+}
+
+label {
+    display: block;
+    color: white;
+    width: 100%;
+    font-size: 20px;
+}
+
+input[type="text"],
+input[type="password"],input[type="email"],input[type="tel"],input[type="number"]{
+    width: calc(100% - 12px);
+    border-radius: 3px;
+    height: 28px;
+    padding-left: 8px;
+    font-size: 16px;
+    font-family: Bitter;
+    border: 2px solid hsl(236, 92%, 66%);
+    outline: none;
+    transition: 200msease-in;
+}
+input:focus {
+    border-bottom: 4px solid hsl(236, 92%, 66%);
+    padding-top: 2px;
+  }
+a{
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+    border: 2px solid white;
+    padding: 0.25px 4px;
+    border-radius: 10px;
+}
+a:hover{
+    background-color: #202020;
+}
+.head{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    margin-bottom: 30px;
+    font-family: 'Satisfy';
+    font-size: 36px;
+}
+

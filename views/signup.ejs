@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/login.css" />
+    <title>Apsara Bazaar-SignUp</title>
+    <link rel="shortcut icon" href="/icons/logo.png" type="image/x-icon">
+    <style>
+      form {
+        height: 425px;
+        justify-content: space-evenly;
+      }
+      #otpForm {
+        display: none; /* Initially hidden */
+        justify-content: space-evenly;
+        align-items: center;
+        height: 250px;
+      }
+      .error-message {
+        color: red;
+        display: none; /* Hide error messages by default */
+      }
+      /* Loading overlay styles */
+      #loadingOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+      #loadingOverlay p {
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="head" style="text-decoration: none">
+      <img src="/icons/logo.png" alt="" width="55px" />&nbsp; Apsara Bazaar
+    </h1>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay">
+      <p>Loading...</p>
+    </div>
+
+    <form id="registerForm">
+      <h1 class="form-head">Sign Up</h1>
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+        <span id="nameError" class="error-message"></span>
+      </div>
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+        <span id="usernameError" class="error-message"></span>
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+        <span id="emailError" class="error-message"></span>
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+        <span id="passwordError" class="error-message"></span>
+      </div>
+      <div style="display: flex; margin-bottom: 8px">
+        <input type="checkbox" id="terms" required />
+        <label style="font-size: 15px">
+          &nbsp; I accept the
+          <a href="/asset/T&C.pdf" style="border: none">
+            Terms and Conditions
+          </a>
+        </label>
+      </div>
+      <button type="submit">Register</button>
+      <p>Already have an account? <a href="/auth/login">Sign In</a></p>
+    </form>
+
+    <form id="otpForm">
+      <h1 class="form-head" style="width: 100%; text-align: center;" >Verify OTP</h1>
+      <div>
+        <label for="otp">Enter the OTP sent to your email:</label>
+        <input type="number" id="otp" name="otp" required style="width: 90%;" />
+        <span id="otpError" class="error-message"
+          >Invalid OTP. Please try again.</span
+        >
+      </div>
+      <button type="submit">Verify OTP</button>
+    </form>
+
+    <script>
+      let otpSent = false; // Flag to check if OTP has been sent
+
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault(); // Prevent form submission
+
+          // Show loading overlay
+          document.getElementById("loadingOverlay").style.display = "flex";
+
+          try {
+            const response = await fetch("/auth/send-otp", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                name: document.getElementById("name").value,
+                username: document.getElementById("username").value,
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+              }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+              otpSent = true; // Set the flag to true
+              document.getElementById("registerForm").style.display = "none";
+              document.getElementById("otpForm").style.display = "flex";
+            } else {
+              alert(data.message || "Failed to send OTP. Please try again.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred. Please try again.");
+          } finally {
+            // Hide the loading overlay after OTP screen is ready
+            document.getElementById("loadingOverlay").style.display = "none";
+          }
+        });
+
+      document
+        .getElementById("otpForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault(); // Prevent form submission
+          const otpInput = document.getElementById("otp");
+          const otpError = document.getElementById("otpError");
+          otpError.style.display = "none"; // Hide the error message initially
+
+          try {
+            const response = await fetch("/auth/verify-otp", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ otp: otpInput.value }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+              alert(data.message);
+              window.location.href = "/"; // Redirect to homepage or desired page
+            } else {
+              otpError.style.display = "block"; // Show error if OTP verification fails
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert(
+              "An error occurred during OTP verification. Please try again."
+            );
+          }
+        });
+    </script>
+  </body>
+</html>

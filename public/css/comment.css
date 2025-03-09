@@ -1,0 +1,186 @@
+
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* Comment Section */
+    .comment-section {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #1e1e1e;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      margin-top: 12px;
+    }
+
+    .comment-header {
+      font-size: 1.5em;
+      color: #ffffff;
+      border-bottom: 1px solid #333;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+    }
+
+    /* Comment List */
+    .comment-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Individual Comment */
+    .comment-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #333;
+    }
+
+    .comment-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Avatar */
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #444;
+      display: flex;
+      margin-right: 15px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Comment Details */
+    .comment-details {
+      flex: 1;
+    }
+
+    .comment-author {
+      font-weight: bold;
+      color: #ffffff;
+      font-size: 1em;
+    }
+
+    .comment-age {
+      font-size: 0.9em;
+      color: #bbbbbb;
+      margin-left: 5px;
+    }
+
+    .comment-text {
+      margin: 10px 0;
+      color: #cccccc;
+    }
+
+    /* Reply Button */
+    .reply-button {
+      background: transparent;
+      color: #c7c3c7;
+      border: none;
+      font-size: 0.9em;
+      cursor: pointer;
+      text-align: left;
+      padding: 0;
+    }
+
+    .reply-button:hover {
+      text-decoration: underline;
+    }
+
+    /* Reply Form */
+    .reply-form {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .reply-form input[type="text"] {
+      width: 92%;
+      padding: 8px;
+      background: #333;
+      border: 1px solid #444;
+      border-radius: 4px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .reply-form button {
+      background: #03a9f4;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* New Comment Form */
+    .new-comment-form {
+      margin-top: 20px;
+    }
+
+    .new-comment-form input[type="text"] {
+      width: 92%;
+      padding: 10px;
+      background: #333;
+      border: 1px solid #444;
+      border-radius: 4px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .new-comment-form button {
+      background: #03a9f4;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Reply List (Nested Comments) */
+    .reply-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+      padding-left: 28px; /* Indentation for replies */
+    }
+
+    .reply-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+
+    .reply-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #555;
+      display: flex;
+      margin-right: 10px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .reply-details {
+      flex: 1;
+    }
+
+    .reply-author {
+      font-weight: bold;
+      color: #ffffff;
+      font-size: 0.9em;
+    }
+
+    .reply-text {
+      margin: 5px 0;
+      color: #bbbbbb;
+    }

@@ -1,0 +1,248 @@
+@media screen and (max-width: 800px) {
+    .l-nav {
+      width: 50vw;
+      justify-content: center;
+      font-size: 26px;
+    }
+
+    .r-nav {
+      width: 45vw;
+    }
+
+    .c-head {
+      font-size: 20px;
+    }
+
+    .p-pop {
+      width: 80%;
+    }
+
+    .n1 {
+      display: none;
+    }
+
+    .n2 {
+      display: flex;
+    }
+
+    #withdraw-btn {
+      font-size: 12px;
+    }
+
+    .coin-head p {
+      font-size: 13px;
+    }
+  }
+
+  .add-post {
+    background: none;
+    border: none;
+    cursor: pointer;
+    aspect-ratio: 1 2;
+  }
+
+  .post-card {
+    width: 100%;
+  max-width: 450px;
+  min-height: 450px;
+  height: auto;
+  background-color: #0e1113;
+  border-bottom: 3px solid rgb(0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #8ba2ad;
+  }
+
+  .img-container {
+    max-width: 400px;
+  width: 92%;
+  max-height: 400px;
+  height: 77%;
+  min-height: 340px;
+  object-fit: contain;
+  position: relative;
+  background-color: black;
+  border-radius: 12px;
+  margin-bottom: 8px;
+
+  }
+
+  .img-container img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    position: absolute;
+    
+  }
+  .card-head{
+    width: 92%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 32px;
+  font-size: 14px;
+  margin-top: 6px;
+  }
+  .card-author img{
+    width: 24px;
+  background-color: black;
+  padding: 4px;
+  border-radius: 50%;
+  }
+  .card-title{
+    width: 92%;
+    margin: 6px 0px;
+    height: auto;
+    min-height: 20px;
+    color: white;
+  }
+  .card-title h3{
+    font-size: 18px;
+  }
+  .card-interaction{
+    width: 92%;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .likes ,.comment ,.share{
+    min-width: 70px;
+  width: auto;
+  height: 32px;
+  background-color: #2a3236;
+  font-size: 24px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 14px;
+  }
+  .image-overlay {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.8);
+justify-content: center;
+align-items: center;
+z-index: 999;
+}
+
+.image-overlay img {
+max-width: 90%;
+max-height: 90%;
+}
+
+.slider-controls {
+position: absolute;
+width: 100%;
+display: flex;
+justify-content: space-between;
+top: 50%;
+transform: translateY(-50%);
+}
+
+.slider-controls button {
+background-color: rgba(255, 255, 255, 0.5);
+border: none;
+padding: 10px;
+font-size: 24px;
+cursor: pointer;
+}
+
+.close-btn {
+position: absolute;
+top: 20px;
+right: 20px;
+font-size: 24px;
+background-color: rgba(255, 255, 255, 0.7);
+border: none;
+cursor: pointer;
+padding: 5px 10px;
+}
+.slider-btn{
+   position: absolute;
+  width: 50px;
+  height: 50px;
+  z-index: 5;
+  font-size: 28px;
+  color: white;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.s-l{
+bottom: 0;
+left: 0;
+}
+.s-r{
+bottom: 0;
+right: 0;
+}
+.modal {
+display: none; /* Hidden by default */
+position: fixed;
+z-index: 1000; /* Sit on top */
+left: 0;
+top: 0;
+width: 100%; /* Full width */
+height: 100%; /* Full height */
+overflow: auto; /* Enable scroll if needed */
+background-color: rgb(0,0,0); /* Fallback color */
+}
+
+.modal-content {
+margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 75%;
+  background-color: #202020;
+}
+.modal-content h3{
+margin: 6px 0px;
+}
+.modal-content p{
+font-size: 14px;
+margin: 6px 0px;
+}
+
+.close {
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+color: black;
+text-decoration: none;
+cursor: pointer;
+}
+#loadMoreButton{
+width: 120px;
+  height: 30px;
+  background: #0e1113;
+  color: white;
+  border: none;
+  margin: 6px 0px;
+  border-radius: 12px;
+}
+.c-i-left{
+  display: flex;
+  gap: 12px;
+}
+@media screen and (max-width: 360px) 
+{
+  .l-nav{
+    font-size: 24px;
+  }
+  .tags button{
+    font-size: 14px;
+  } 
+}

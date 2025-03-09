@@ -1,0 +1,79 @@
+<div class="post-card">
+    <div class="card-head">
+      <div class="card-author" style="display: flex; align-items: center;" onclick="redirectToProfile('<%=post.author%>')">
+        <img src="/icons/profile.gif" alt="">
+        &nbsp;&nbsp;/<%= post.author %>&nbsp;&nbsp;&nbsp;<p style="font-size:10px;"> <%= timeAgo(post.uploadTime) %> </p>
+      </div>
+    </div>
+
+    <div class="card-title">
+      <h3>
+        <a href="#" style="text-decoration: none; color: inherit;">
+          <%= post.title %>
+        </a>
+      </h3>
+    </div>
+
+    <!-- Single Image Slider -->
+<div class="img-container" style="position: relative; display: inline-block;">
+  <img src="<%= images[0].src %>" alt="<%= images[0].caption %>"
+       id="img-<%= post._id %>"
+       data-images='<%= JSON.stringify(images.map(img => img.src)) %>'
+       loading="lazy" style="width: 100%;" 
+       onclick="openFullscreenImage('<%= post._id %>')"/>
+       
+  <% if (images.length > 1) { %>
+    <button class="slider-btn s-l" onclick="prevImage('<%= post._id %>')">&#10094;</button>
+    <button class="slider-btn s-r" onclick="nextImage('<%= post._id %>')">&#10095;</button>
+  <% } %>
+  
+  <!-- Image Counter Overlay -->
+  <div id="img-counter-<%= post._id %>" 
+       class="image-counter" 
+       style="position: absolute; bottom: 5px; right: 44%; background: rgba(0,0,0,0.5); color: #fff; padding: 2px 5px; border-radius: 3px; font-size: 12px;">
+    1 / <%= images.length %>
+  </div>
+</div>
+
+
+    <div class="card-interaction">
+      <div class="c-i-left">
+        <div class="likes" onclick="addLike('<%= post._id %>')">
+          <img id="like-icon-<%= post._id %>" alt="like icon"/>
+          <p class="like-count" id="like-count-<%= post._id %>"><%= post.likes %></p>
+        </div>
+        <div class="comment" onclick="fetchComments('<%= post._id %>')">
+          <img src="/icons/comment.gif" alt="">
+          <p><%= post.comments %></p>
+        </div>
+      </div>
+      <div class="c-i-right">
+        <div class="share" onclick="sharePost('<%=post._id%>')" style="min-width:50px">
+          <span class="money-need" style="font-size:22px">share</span>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <%
+ function timeAgo(isoDate) {
+    const timeUnits = [
+      { label: "year", seconds: 31536000 },
+      { label: "month", seconds: 2592000 },
+      { label: "day", seconds: 86400 },
+      { label: "hour", seconds: 3600 },
+      { label: "minute", seconds: 60 }
+    ];
+    const now = new Date();
+    const past = new Date(isoDate);
+    const diffInSeconds = Math.floor((now - past) / 1000);
+    for (let unit of timeUnits) {
+      const interval = Math.floor(diffInSeconds / unit.seconds);
+      if (interval >= 1) {
+        return `${interval} ${unit.label}${interval > 1 ? "s" : ""} ago`;
+      }
+    }
+    return "just now";
+  }
+    %>

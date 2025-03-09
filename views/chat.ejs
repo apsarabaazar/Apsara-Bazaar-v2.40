@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+ 
+  <!-- <link rel="manifest" href="/manifest.json"> -->
+  <title>Apsara Bazaar</title>
+  <link rel="shortcut icon" href="/icons/logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="/css/chatting.css" />
+  <style>
+     @import url('https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Satisfy&display=swap');
+    @media screen and (max-width: 400px) {
+      .chat-container {
+        width: 100%;
+        height: 100vh;
+        border: none;
+      }
+    }
+    .detail-popup{
+      width: 72%;
+    position: absolute;
+    z-index: 10;
+    color: white;
+    display: none;
+    top: 54px;
+
+    }
+    /* From Uiverse.io by 1osm */ 
+.card {
+  width:100%;
+    height: 70px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 10px 2px rgb(162 153 153 / 33%);
+}
+
+.imge {
+  height: 70px;
+  background-color: #0e1113;
+  border-radius: 12px;
+}
+
+.imge .Usericon {
+  background-color: #414141;
+  transform: translateX(10px) translateY(10px);
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+}
+
+.imge .UserName {
+  width: 60px;
+  height: 15px;
+  border-width: 10px;
+  border-radius: 5px;
+  border-color: #262626;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Bitter;
+  transform: translateX(70px) translateY(-35px);
+}
+
+.imge .Id {
+  width: 100px;
+  height: 15px;
+  border-width: 10px;
+  border-radius: 5px;
+  border-color: #262626;
+  color: #ffffff;
+  font-size: 14px;
+  font-family: Bitter;
+  transform: translateX(70px) translateY(-25px);
+}
+
+.Description {
+  border-color: #141414;
+  background-color: #414141;
+  transform: translate(5px, 6px);
+  width: 180px;
+  height: 130px;
+  border-radius: 5px;
+}
+  </style>
+  <meta name="name" content="<%= name %>" />
+  <meta name="username" content="<%= username %>" />
+  <meta name="room-code" content="<%= roomCode %>" />
+  <meta name="room-name" content="<%= roomName %>" />
+</head>
+
+<body>
+
+  <div class="chat-container">
+    <div class="chat-head" onclick="showdetails()">
+      <div class="logo">
+        <img src="/icons/profile.gif" alt="" width="32px" />
+      </div>
+      <div class="details">
+        <div class="name">ConnectZone</div>
+      
+        <div class="online-users">
+        </div>
+      </div>
+      <div class="right-head">
+        <div class="room-c"></div>
+      </div>
+    </div>
+
+    <div class="message-container">
+      <ul id="messages">
+        <!-- Messages will be dynamically added here -->
+      </ul>
+    </div>
+
+    <form id="form" action="" enctype="multipart/form-data">
+      <input id="input" autocomplete="off" placeholder="Message" />
+      <button type="submit">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30px">
+          <g data-name="07-Send">
+          <path style="fill:#2934a3" d="m1 1 15 31L1 63v-9l10-22L1 11V1z"/>
+          <path style="fill:#01a3ec" d="M63 32 1 63l15-31h47z"/>
+          <path style="fill:#01c1ff" d="M63 32H16L1 1l62 31z"/>
+          <path style="fill:#006cbf" d="m1 11 10 21h5L1 1v10z"/>
+          <path style="fill:#1c69a1" d="m1 1 15 31L1 63v-9l10-22L1 11V1z"/>
+          <path style="fill:#48befd" d="M63 32 1 63l15-31h47z"/>
+          <path style="fill:#6bdcff" d="M63 32H16L1 1l62 31z"/>
+          <path style="fill:#2a84c9" d="m1 11 10 21h5L1 1v10z"/>
+          <path style="fill:none;stroke:#000;stroke-linejoin:round;stroke-width:2px" d="M49 39 1 63l15-31L1 1l10 5M13 7l50 25-12 6M25 32h38M21 32h2M16 32h3"/>
+          <path style="fill:none;stroke:#000;stroke-linejoin:round;stroke-width:2px" d="M1 1v10l10 21L1 54v9"/>
+        </g>
+      </svg>
+      </button>
+    </form>
+  </div>
+
+  <div class="detail-popup" id="popup" style="display: none;">
+<div class="card">
+  <div class="imge">
+    <div class="Usericon"></div>
+    <p class="UserName"><%=room.name %></p>
+    <p class="Id">@<%=room.username  %></p>
+  </div>
+</div>
+
+  </div>
+  
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/client.js"></script>
+  <script>
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      const roomCode = document
+        .querySelector('meta[name="room-name"]')
+        .getAttribute("content");
+      document.querySelector(".name").textContent = `${roomCode}`;
+    });
+    let uname="<%=room.username%>";
+
+
+    async function showdetails(){
+    window.location.href=`/user/profile/${uname}`
+    }
+    
+
+  </script>
+</body>
+
+</html>
